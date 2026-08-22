@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "servidor-teste-etapa1",
+      "runtimeExecutable": "powershell.exe",
+      "runtimeArgs": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "C:\\Users\\LIA~1.CHI\\AppData\\Local\\Temp\\claude\\C--Users-lia-chinellato-Desktop-criador-conteudo\\adef8c90-90bb-43c4-b2b1-3d28a9509b60\\scratchpad\\servidor-teste.ps1"],
+      "port": 8790
+    }
+  ]
+}

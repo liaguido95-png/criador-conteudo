@@ -1,0 +1,413 @@
+/* Identidade visual da Sala de Ideias (Etapa 3).
+   Paleta e fontes vieram da Lia; ver CLAUDE.md para a explicação de onde
+   cada cor é usada e a ressalva sobre as fontes Aileron / Times New Roman
+   MT Condensed não serem embutíveis de graça (ficam como fonte de sistema:
+   só aparecem certinho pra quem já tem elas instaladas). */
+
+:root {
+  --cor-fundo: #ffccdd;
+  --cor-texto-claro: #ffffff;
+  --cor-texto-destaque: #502533;
+  --cor-secundaria: #c1ff72;
+
+  --fonte-principal: "Aileron", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --fonte-destaque: "Times New Roman MT Condensed", "Times New Roman", Georgia, serif;
+
+  --espaco: 1rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--fonte-principal);
+  color: var(--cor-texto-destaque);
+  background-color: var(--cor-fundo);
+  line-height: 1.5;
+}
+
+.pagina {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 2rem 1.2rem 4rem;
+  text-align: center;
+}
+
+/* Cabeçalho */
+
+.titulo-site {
+  font-family: var(--fonte-destaque);
+  font-weight: 700;
+  font-size: 3rem;
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+
+.credito {
+  margin: 0.4rem 0 0;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--cor-texto-destaque);
+  opacity: 0.7;
+}
+
+.credito a {
+  color: var(--cor-texto-destaque);
+  text-decoration: underline;
+  opacity: 1;
+}
+
+.credito a:hover {
+  text-decoration: none;
+}
+
+.rodape {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(80, 37, 51, 0.2);
+}
+
+.rodape .credito {
+  margin: 0;
+}
+
+/* Botões e chips — todos compartilham o mesmo "vidro líquido" verde:
+   fundo semitransparente + desfoque atrás (backdrop-filter) + borda clara,
+   como pedido. Cada variante só muda intensidade/tamanho, não a família. */
+
+.chip,
+.chip-tudo,
+.botao-pill,
+.botao-girar,
+.botao-salvar {
+  font-family: var(--fonte-principal);
+  font-weight: 700;
+  color: var(--cor-texto-destaque);
+  border-radius: 999px;
+  cursor: pointer;
+  background-color: rgba(193, 255, 114, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  -webkit-backdrop-filter: blur(10px) saturate(160%);
+  backdrop-filter: blur(10px) saturate(160%);
+  box-shadow: 0 4px 14px rgba(80, 37, 51, 0.12);
+  transition: background-color 0.15s ease, opacity 0.15s ease;
+}
+
+.chip:hover,
+.chip-tudo:hover,
+.botao-pill:hover,
+.botao-girar:hover {
+  background-color: rgba(193, 255, 114, 0.5);
+}
+
+/* Selecionado/ativo: vidro mais saturado, pra diferenciar sem sair da família verde */
+.chip[aria-pressed="true"],
+.chip-tudo[aria-pressed="true"] {
+  background-color: rgba(193, 255, 114, 0.75);
+  border-color: var(--cor-texto-destaque);
+}
+
+/* Chips de categoria */
+
+.fileira-chips {
+  margin-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.lista-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.chip,
+.chip-tudo {
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+}
+
+/* Tagline */
+
+.tagline {
+  margin-top: 1.2rem;
+  font-size: 0.9rem;
+  color: var(--cor-texto-destaque);
+  opacity: 0.75;
+}
+
+/* Área principal da roleta. O tema sorteado é a parte que a pessoa vai
+   filmar (girando e gravando pelo celular): precisa de bastante contraste
+   contra o fundo rosa, por isso vai na cor principal (ameixa escuro) e
+   bem grande. A legenda da categoria, menor, fica em branco por cima —
+   como tem pouco contraste sozinha, leva uma sombra escura sutil atrás
+   só pra não sumir de vez. */
+
+.area-roleta {
+  margin-top: 3rem;
+}
+
+.resultado-categoria {
+  margin: 0;
+  min-height: 1.4em;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cor-texto-claro);
+  text-shadow: 0 1px 6px rgba(80, 37, 51, 0.5);
+}
+
+.resultado-tema {
+  font-family: var(--fonte-destaque);
+  font-weight: 700;
+  font-size: clamp(2.6rem, 9vw, 4.5rem);
+  line-height: 1.15;
+  margin: 0.4rem 0 0;
+  color: var(--cor-texto-destaque);
+}
+
+.botao-girar {
+  margin-top: 2rem;
+  font-size: 1.1rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 1rem 3rem;
+  border: none;
+  background-color: rgba(193, 255, 114, 0.85);
+}
+
+.botao-girar:hover {
+  background-color: var(--cor-secundaria);
+}
+
+.botao-girar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.botoes-secundarios {
+  margin-top: 1.2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.botao-pill {
+  font-size: 0.85rem;
+  padding: 0.6rem 1.2rem;
+}
+
+.botao-link {
+  display: block;
+  margin: 0.6rem auto 0;
+}
+
+.aviso-ia {
+  margin-top: 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--cor-texto-destaque);
+}
+
+.botoes-secundarios button:disabled,
+.botao-salvar:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.botao-salvar {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  padding: 0.4rem 1rem;
+  background-color: rgba(193, 255, 114, 0.2);
+}
+
+/* Histórico e pautas salvas */
+
+.secao-historico,
+.secao-salvos {
+  margin-top: 3rem;
+  text-align: left;
+}
+
+.nichos-salvos {
+  margin-top: 1.5rem;
+}
+
+.botao-remover {
+  background: none;
+  border: none;
+  font-family: var(--fonte-principal);
+  font-size: 0.85rem;
+  color: var(--cor-texto-destaque);
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.botao-remover:hover {
+  opacity: 1;
+}
+
+.titulo-secao {
+  font-family: var(--fonte-principal);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.aviso-sessao {
+  font-size: 0.8rem;
+  color: var(--cor-texto-destaque);
+  opacity: 0.65;
+  margin: 0.2rem 0 0.8rem;
+}
+
+.lista-historico {
+  max-height: 220px;
+  overflow-y: auto;
+  padding-left: 1.2rem;
+  font-size: 0.9rem;
+}
+
+/* Nicho pessoal (colapsável) */
+
+.secao-nicho {
+  margin-top: 3rem;
+  text-align: left;
+}
+
+.details-nicho summary {
+  list-style: none;
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+}
+
+.details-nicho summary::-webkit-details-marker {
+  display: none;
+}
+
+.conteudo-nicho {
+  margin-top: 1.2rem;
+}
+
+.instrucoes-nicho {
+  font-size: 0.9rem;
+  line-height: 1.8;
+  color: var(--cor-texto-destaque);
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+label {
+  display: block;
+  margin-top: 1rem;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 0.6rem;
+  margin-top: 0.3rem;
+  border: 1px solid var(--cor-texto-destaque);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  background-color: rgba(255, 255, 255, 0.6);
+  color: var(--cor-texto-destaque);
+}
+
+.aviso-copiado {
+  margin-left: 0.6rem;
+  font-weight: 700;
+  color: var(--cor-texto-destaque);
+}
+
+.erro {
+  color: #7a1010;
+  font-weight: 700;
+  margin-top: 0.5rem;
+}
+
+/* Overlay dos cronômetros (Etapa 4) */
+
+/* O seletor ":not([hidden])" é essencial aqui: sem ele, "display: flex"
+   entra em conflito com o atributo "hidden" do HTML (que pede
+   "display: none") e o navegador obedece o CSS, não o atributo — o overlay
+   ficava visualmente preso na tela mesmo depois de "fechado" no JavaScript.
+   Foi o bug que travava a tela com o cronômetro aberto. */
+.overlay-cronometro:not([hidden]) {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(80, 37, 51, 0.92);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 1.5rem;
+  overflow-y: auto;
+  z-index: 50;
+}
+
+.cartao-cronometro {
+  background-color: var(--cor-fundo);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+
+.cronometro-titulo {
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  color: var(--cor-texto-destaque);
+}
+
+.cronometro-tempo {
+  font-family: var(--fonte-destaque);
+  font-size: 4rem;
+  line-height: 1.1;
+  margin: 0.3rem 0 0;
+  color: var(--cor-texto-destaque);
+  font-variant-numeric: tabular-nums;
+}
+
+.cronometro-reforco {
+  margin: 0.8rem 0 0;
+  font-size: 0.85rem;
+  color: var(--cor-texto-destaque);
+  opacity: 0.8;
+}
+
+.cronometro-aviso {
+  margin: 1rem 0 0;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--cor-texto-destaque);
+}
+
+.cronometro-acoes {
+  margin-top: 1.6rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+}
