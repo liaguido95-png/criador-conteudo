@@ -60,8 +60,13 @@ O Claude vai:
 
 ⏱️ **Isso não é instantâneo:** depois do "push", o site pode levar de
 **1 a 5 minutos** pra mostrar a versão nova. Se você atualizar a página e
-ainda estiver igual, espera um pouquinho e tenta de novo (Ctrl+F5 força o
-navegador a esquecer a versão antiga guardada).
+ainda estiver igual, espera um pouquinho e tenta de novo.
+
+🔄 **Se mesmo depois de esperar continuar parecendo igual ao de antes:** é
+quase sempre o navegador mostrando uma cópia antiga que ele mesmo guardou
+("cache"), não o site de verdade. Aperte **Ctrl+Shift+R** (em vez do F5
+normal) — isso força o navegador a esquecer a versão antiga e buscar tudo
+de novo.
 
 ### Passo a passo de como pedir (resumo pra colar numa conversa nova)
 

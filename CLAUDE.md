@@ -175,6 +175,13 @@ sempre uma frase-instrução completa (padrão "Descreva/Conte/Explique por [tem
     uma escolha da pessoa, não uma obrigação pra usar o app.
   - Ver R16 (segurança) e R17 (LGPD) na Seção 7, e a Etapa 6 revisada na
     Seção 6.
+- **Onde paramos (2026-08-21):** Etapa 6 concluída e verificada de ponta a
+  ponta no site publicado (ver detalhes na Etapa 6, Seção 6). Próximo
+  trabalho combinado com a Lia: **correções de identidade visual e da tela
+  de login** (ajustes finos, não uma etapa nova do roteiro) — a Lia vai
+  descrever o que quer ajustar numa conversa futura, e as mudanças devem
+  ser subidas ao GitHub só quando ela pedir explicitamente ("pode subir"),
+  como já vem sendo feito.
 
 ---
 
@@ -338,7 +345,7 @@ tudo persistido.
 salvar pauta → recarregar → continua na lista; remover nicho/pauta → some da
 tela e do `localStorage` (conferido lendo `localStorage.getItem(...)` direto).
 
-### Etapa 6 — Contas de usuário (login) e sincronização com Firebase
+### Etapa 6 — Contas de usuário (login) e sincronização com Firebase ✅ CONCLUÍDA
 `js/autenticacao.js`: cadastro e login por e-mail/senha via Firebase
 Authentication (SDK compat), com logout. `js/armazenamento.js` passa a decidir
 o destino da leitura/escrita: sem sessão ativa, continua gravando só em
@@ -361,6 +368,15 @@ navegador/aparelho e conferir que os mesmos dados aparecem; tentar ler o
 documento do Firestore de outra conta (via console do Firebase) e confirmar
 que as regras de segurança bloqueiam; usar o app sem criar conta e confirmar
 que nada mudou em relação ao comportamento de hoje.
+**Verificado (2026-08-21), direto no site publicado:** cadastro/login por
+e-mail e senha; nicho criado enquanto logada foi conferido gravado no
+documento do Firestore; simulação de "outro aparelho" (localStorage limpo
++ recarregar) trouxe o nicho de volta da nuvem sozinho; exclusão de conta
+apagou o documento no Firestore e encerrou a sessão; zero erros no console
+em todo o fluxo. Regras de segurança do Firestore (R16) já coladas e
+publicadas no console pela Lia. **Nota de teste:** logo após publicar uma
+atualização, o navegador pode mostrar a versão antiga por causa de cache —
+um Ctrl+Shift+R resolve (documentado no `COMO-ATUALIZAR-O-SITE.md`).
 
 ### Etapa 7 — Exportar / importar e resiliência
 Botão de exportar tudo para um arquivo `.json` e importar de volta (backup e
