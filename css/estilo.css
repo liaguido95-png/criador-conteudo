@@ -281,6 +281,23 @@ body {
   font-size: 0.9rem;
 }
 
+/* Conta de usuário (Etapa 6) */
+
+.secao-conta {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  text-align: left;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 8px;
+}
+
+.botoes-conta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
 /* Nicho pessoal (colapsável) */
 
 .secao-nicho {
@@ -320,6 +337,8 @@ label {
 }
 
 input[type="text"],
+input[type="email"],
+input[type="password"],
 textarea {
   width: 100%;
   padding: 0.6rem;

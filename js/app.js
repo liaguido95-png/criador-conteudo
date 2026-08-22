@@ -20,6 +20,80 @@ var estadoCronometro = {
   pausado: false
 };
 
+function mostrarErroConta(mensagem) {
+  var erro = document.getElementById("erro-conta");
+  erro.textContent = mensagem;
+  erro.hidden = false;
+}
+
+function limparErroConta() {
+  document.getElementById("erro-conta").hidden = true;
+}
+
+function atualizarUIConta(usuario) {
+  document.getElementById("bloco-conta-deslogada").hidden = !!usuario;
+  document.getElementById("bloco-conta-logada").hidden = !usuario;
+  if (usuario) {
+    document.getElementById("texto-usuario-logado").textContent = "Logada como " + usuario.email;
+  }
+}
+
+// Depois do login, junta o que já existia sem conta com o que a conta já
+// tinha guardado (Armazenamento.sincronizarComNuvem cuida da mesclagem) e
+// atualiza a tela inteira com o resultado.
+function hidratarComNuvem(uid) {
+  Armazenamento.sincronizarComNuvem(uid).then(function (dados) {
+    estadoApp.nichos = dados.nichos;
+    estadoApp.salvos = dados.salvos;
+    renderizarChipsCategorias();
+    renderizarNichosSalvos();
+    renderizarSalvos();
+    atualizarPoolERoleta();
+  }).catch(function () {
+    // Sem rede ou regras do Firestore ainda não configuradas: o app segue
+    // funcionando só com os dados locais, sem travar a tela por isso.
+  });
+}
+
+function aoClicarEntrar() {
+  limparErroConta();
+  var email = document.getElementById("input-email").value.trim();
+  var senha = document.getElementById("input-senha").value;
+  Autenticacao.entrar(email, senha).catch(function (erro) {
+    mostrarErroConta(erro.message);
+  });
+}
+
+function aoClicarCriarConta() {
+  limparErroConta();
+  var email = document.getElementById("input-email").value.trim();
+  var senha = document.getElementById("input-senha").value;
+  Autenticacao.cadastrar(email, senha).catch(function (erro) {
+    mostrarErroConta(erro.message);
+  });
+}
+
+function aoClicarSair() {
+  Autenticacao.sair();
+}
+
+function aoClicarExcluirConta() {
+  var confirmou = window.confirm(
+    "Isso apaga sua conta e todos os dados salvos nela (nichos e pautas). " +
+    "Não dá pra desfazer. Quer continuar?"
+  );
+  if (!confirmou) {
+    return;
+  }
+
+  var usuario = firebase.auth().currentUser;
+  Armazenamento.excluirDadosNuvem(usuario.uid)
+    .then(function () { return Autenticacao.excluirConta(); })
+    .catch(function (erro) {
+      mostrarErroConta(erro.message);
+    });
+}
+
 function listaCompletaCategorias() {
   var todas = [];
 
@@ -495,6 +569,21 @@ function iniciar() {
   renderizarSalvos();
   atualizarPoolERoleta();
   configurarFechamentoAutomaticoNicho();
+
+  Autenticacao.aoMudarSessao(function (usuario) {
+    atualizarUIConta(usuario);
+    if (usuario) {
+      Armazenamento.definirUsuario(usuario.uid);
+      hidratarComNuvem(usuario.uid);
+    } else {
+      Armazenamento.limparUsuario();
+    }
+  });
+
+  document.getElementById("botao-entrar").addEventListener("click", aoClicarEntrar);
+  document.getElementById("botao-criar-conta").addEventListener("click", aoClicarCriarConta);
+  document.getElementById("botao-sair").addEventListener("click", aoClicarSair);
+  document.getElementById("botao-excluir-conta").addEventListener("click", aoClicarExcluirConta);
 
   document.getElementById("botao-girar").addEventListener("click", aoClicarGirar);
   document.getElementById("chip-tudo").addEventListener("click", aoClicarChipTudo);
