@@ -39,10 +39,11 @@ servir os dois perfis.
 **Modelo híbrido de temas (a diferença real em relação ao napauta.co):**
 - **Categorias fixas e amplas**, que já vêm prontas no site, para quem não tem
   nicho definido: Moda, Beleza, Entretenimento, Cultura Pop, Música, Livros,
-  Arte, Psicologia, Em Alta — e um grupo de **categorias de autoconhecimento**
-  (Treino & Academia, Lifestyle, Alimentação, Profissão) que sorteiam uma
-  instrução para a pessoa falar sobre a própria vivência, não sobre um assunto
-  externo. Ver detalhe do formato logo abaixo.
+  Arte, Psicologia, Em Alta, Marketing Digital, Criação de Conteúdo — e um
+  grupo de **categorias de autoconhecimento** (Treino & Academia, Lifestyle,
+  Alimentação, Profissão), que continuam separadas por giro (uma pessoa
+  ativa uma categoria de cada vez, nunca combina). Ver detalhe do formato
+  logo abaixo.
 - **Nicho pessoal**, um campo onde a pessoa digita o próprio assunto (ex.: "RPG
   de mesa", "marketing digital", "nutrição") e a roleta passa a sortear dentro
   dali. Para popular esse nicho com ~150 temas, o site gera um **prompt pronto
@@ -50,22 +51,17 @@ servir os dois perfis.
   Lia, se ela tiver um link de chat público) — a pessoa cola a resposta da IA
   de volta no site, que organiza a lista. Ver Etapa 1 e Regra R12.
 
-**Dois formatos de tema dentro das categorias fixas** (decisão de 2026-08-12):
-- **Tema de pesquisa externa** — um assunto solto para a pessoa buscar
-  informação de fora (ex.: em Arte, "Mies van der Rohe"). Formato usado em:
-  Moda, Beleza, Entretenimento, Cultura Pop, Música, Livros, Arte, Psicologia,
-  Em Alta.
-- **Tema de autoconhecimento** — uma frase-instrução que manda a pessoa olhar
-  para a própria vivência, não para fora (ex.: em Profissão, "Descreva por 10
-  minutos o que você faz no seu trabalho todos os dias"). Formato usado em:
-  Treino & Academia, Lifestyle, Alimentação, Profissão. A pessoa ainda usa os 10
-  minutos, mas para organizar ideias e lembranças próprias, não para pesquisar
-  na internet.
-
-Isso não muda nada técnico — é a mesma roleta e o mesmo cronômetro. A diferença
-está só em como o texto do tema é escrito: nas categorias de autoconhecimento,
-sempre uma frase-instrução completa (padrão "Descreva/Conte/Explique por [tempo]
-..."), nunca um nome solto.
+**Formato do tema, refeito em 2026-08-31:** a Lia trouxe um banco de temas
+próprio, todo em formato de **pergunta** (ex.: em Moda, "Corset voltou: você
+usaria? Como combinaria?"; em Profissão, "Você trabalharia em algo que ama por
+menos dinheiro?"). Isso substitui o formato anterior — que separava "assunto
+solto pra pesquisar" (categorias de pesquisa) de "frase-instrução tipo
+Descreva por 10 minutos..." (categorias de autoconhecimento). Agora **todas
+as categorias fixas usam pergunta**, pesquisa e autoconhecimento igual. A
+distinção interna `pesquisa`/`autoconhecimento` continua existindo só na
+estrutura de dados (`js/dados.js`) e não muda nada técnico nem visual — é
+só um jeito de organizar o arquivo. **R13 foi revogada por causa dessa
+mudança** (ver Seção 7).
 
 ---
 
@@ -270,6 +266,11 @@ aparecerem dentro do nicho.
 digitar `Object.keys(TEMAS)` e conferir as categorias fixas; testar o fluxo
 completo do nicho com uma lista de teste colada manualmente (não precisa gastar
 uma consulta de IA de verdade só para testar).
+**Banco de temas atualizado em 2026-08-31:** a Lia trouxe um arquivo pronto
+com o banco de perguntas completo (ver Seção 1) e duas categorias novas
+(Marketing Digital, Criação de Conteúdo), totalizando 11 categorias de
+pesquisa + 4 de autoconhecimento = 15 categorias fixas, 840 temas no total.
+`js/dados.js` foi regerado a partir desse arquivo.
 
 ### Etapa 2 — Lógica da roleta
 `js/roleta.js`: sortear um tema respeitando as categorias ativas, com
@@ -383,11 +384,11 @@ Wi-Fi), e executar o fluxo completo: girar → pensar/pesquisar/escrever à mão
   ver Etapa 1), mas nunca gera o roteiro, a fala ou o texto final que a pessoa
   vai apresentar. Quem pesquisa e fala é o ser humano — isso é a tese do
   produto, não um detalhe técnico.
-- **R13 — Categorias de autoconhecimento usam frase-instrução, sempre.** Temas
-  de Treino & Academia, Lifestyle, Alimentação e Profissão devem ser escritos como
-  instrução completa ("Descreva/Conte/Explique por [tempo]..."), nunca como
-  nome solto. Motivo: a pessoa não vai pesquisar na internet nesses temas, ela
-  vai organizar a própria vivência — o tema precisa guiar exatamente o ângulo.
+- **R13 — REVOGADA em 2026-08-31.** Antes exigia frase-instrução nas
+  categorias de autoconhecimento. Desde a atualização do banco de temas
+  (Seção 1), todas as categorias fixas — pesquisa e autoconhecimento — usam
+  formato de pergunta. Mantida aqui só pra explicar o número (não reaproveitar
+  "R13" pra outra regra, pra não confundir referências antigas).
 - **R14 — Nenhuma IA integrada por API dentro do site.** Toda interação com IA é
   externa ao site (a pessoa copia um texto e cola em outro lugar). Ligar uma IA
   por API exigiria backend e provavelmente custo por uso — contra R5 e R10. Se
@@ -473,7 +474,7 @@ entre usuários, domínio próprio pago, qualquer tipo de conta/login.
 
 - **Pauta / tema:** o assunto sorteado pela roleta.
 - **Categoria fixa:** agrupamento de temas que já vem pronto no app (ex.: "Moda").
-- **Categoria de autoconhecimento:** categoria fixa (Treino & Academia, Lifestyle, Alimentação, Profissão) cujo tema é uma instrução para falar sobre a própria vivência, não um assunto para pesquisar fora.
+- **Categoria de autoconhecimento:** categoria fixa (Treino & Academia, Lifestyle, Alimentação, Profissão) sobre a própria vivência da pessoa, não um assunto externo. Desde 2026-08-31, o tema é uma pergunta, igual às categorias de pesquisa (ver R13 revogada).
 - **Nicho pessoal:** agrupamento de temas criado pela própria pessoa (ex.: "RPG de Mesa", "Marketing Digital").
 - **Pool ativo:** conjunto de temas elegíveis no sorteio, dado o que estiver ligado (categorias fixas e/ou nichos).
 - **Banco-semente:** temas das categorias fixas, escritos por nós, para o primeiro acesso.
