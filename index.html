@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sala de Ideias</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body>
@@ -15,31 +18,6 @@
         <a href="https://www.instagram.com/liaachinellato/" target="_blank" rel="noopener">@liaachinellato</a>
       </p>
     </header>
-
-    <section class="secao-conta" id="bloco-conta-deslogada">
-      <label for="input-email">E-mail</label>
-      <input type="email" id="input-email" placeholder="seu@email.com" autocomplete="email">
-      <label for="input-senha">Senha</label>
-      <input type="password" id="input-senha" placeholder="mínimo 6 caracteres" autocomplete="current-password">
-      <div class="botoes-conta">
-        <button id="botao-entrar" class="botao-pill" type="button">Entrar</button>
-        <button id="botao-criar-conta" class="botao-pill" type="button">Criar conta</button>
-      </div>
-      <p class="aviso-sessao">
-        Conta opcional: guarda seus nichos e pautas salvas nesta conta, pra você
-        acessar de outro aparelho. Guardamos só seu e-mail e o que você criar no
-        app — nada é compartilhado com terceiros.
-      </p>
-      <p id="erro-conta" class="erro" hidden></p>
-    </section>
-
-    <section class="secao-conta" id="bloco-conta-logada" hidden>
-      <p id="texto-usuario-logado" class="aviso-sessao"></p>
-      <div class="botoes-conta">
-        <button id="botao-sair" class="botao-pill" type="button">Sair</button>
-        <button id="botao-excluir-conta" class="botao-pill" type="button">🗑️ Excluir minha conta e meus dados</button>
-      </div>
-    </section>
 
     <nav class="fileira-chips" id="fileira-chips" aria-label="Categorias e nichos">
       <button id="chip-tudo" class="chip chip-tudo" type="button" aria-pressed="false">Tudo</button>
@@ -141,11 +119,6 @@
     </div>
   </div>
 
-  <!-- SDK "compat" do Firebase: script clássico, sem type="module" (R4). -->
-  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
-  <script src="js/autenticacao.js"></script>
   <script src="js/dados.js"></script>
   <script src="js/armazenamento.js"></script>
   <script src="js/roleta.js"></script>

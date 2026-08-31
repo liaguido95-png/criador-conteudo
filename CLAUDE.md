@@ -106,42 +106,38 @@ sempre uma frase-instrução completa (padrão "Descreva/Conte/Explique por [tem
   - No rodapé da página: "inspirado no modelo do Em Pauta, por
     @mamejunqueira", link para https://www.instagram.com/mamejunqueira.
   - Ambos abrem em nova aba, com `rel="noopener"`.
-- **Paleta de cores (Etapa 3, 2026-08-12):**
-  - Fundo: `#ffccdd`
-  - Texto branco: `#ffffff`
-  - Texto em destaque (ameixa escuro): `#502533`
-  - Detalhe / cor secundária (verde-limão): `#c1ff72`
-  - **Ajuste de aplicação (não muda os hex, só onde cada um é usado):** texto
-    branco puro direto sobre o fundo rosa claro tem contraste baixo demais pra
-    ler. Por isso: o ameixa escuro é o "texto principal" sempre que o fundo é
-    rosa claro (título, corpo de texto); o branco é usado como texto sobre
-    superfícies preenchidas com o ameixa escuro (chips inativos, botão Girar);
-    o verde-limão marca o que está selecionado/em destaque (chip ativo).
-  - **Exceção deliberada (2026-08-14):** a palavra sorteada (`.resultado-tema`)
-    é a parte que a pessoa filma girando/gravando pelo celular, então precisa
-    do máximo contraste — vai no ameixa escuro, bem grande (`clamp` entre
-    ~2.6rem e 4.5rem). Já o rótulo da categoria acima dela (`.resultado-categoria`)
-    é branco por pedido direto da Lia, mesmo com contraste baixo nesse par
-    específico — leva uma sombra escura sutil só pra não sumir de vez; é uma
-    exceção estética aceita conscientemente, não um esquecimento.
-- **Tipografia (Etapa 3, 2026-08-12):**
-  - Fonte principal: Aileron (Regular e Negrito/Bold) — para textos de
-    interface, tags, corpo.
-  - Fonte de destaque: Times New Roman MT Condensed — para o título e a
-    palavra sorteada.
-  - **Ressalva técnica/legal:** nenhuma das duas está disponível no Google
-    Fonts (única exceção de fonte externa permitida pela R5). Aileron é uma
-    fonte gratuita, mas precisa dos arquivos da fonte pra funcionar em
-    qualquer visitante — por ora está como referência de fonte de sistema
-    (só aparece certinho em quem já tem ela instalada). Times New Roman MT
-    Condensed é uma fonte da Microsoft/Monotype, não licenciada pra
-    distribuição num site público — por isso também fica só como referência
-    de fonte de sistema (funciona no computador da Lia, que é Windows; a
-    maioria dos visitantes vai ver a fonte alternativa, tipo Times New Roman
-    ou Georgia). Se a Lia quiser fidelidade visual igual pra todo mundo, ela
-    precisa: (a) providenciar os arquivos legítimos da Aileron pra hospedar
-    no site, e (b) escolher uma fonte serifada condensada realmente gratuita
-    no lugar da Times New Roman MT Condensed.
+- **Paleta e tipografia REFEITAS em 2026-08-31 — substituem por completo a
+  paleta rosa/ameixa/verde e as fontes Aileron/Times New Roman MT Condensed
+  descritas antes.** A Lia trouxe um guia de identidade visual próprio,
+  pronto, e pediu para segui-lo à risca. Resumo (o guia completo, com todas
+  as regras de proporção, hierarquia e combinação, está registrado em
+  `css/estilo.css` como comentário de referência):
+  - **Creme** `#FFFDEC` — cor de fundo principal (substitui o branco puro).
+  - **Vinho/ameixa** `#502533` — cor principal de texto (substitui o preto).
+    Mesmo hex de antes, então continua servindo pros elementos que já
+    usavam "ameixa escuro".
+  - **Rosa** `#FF9DD9` — cor de destaque, usada com moderação para dirigir o
+    olhar (palavras-chave, partes de headline, chip selecionado, CTA
+    principal).
+  - **Verde-lima** `#C1FF72` — cor de acento, ainda mais pontual (etiquetas,
+    pequenos destaques, sublinhados). Nunca em áreas grandes.
+  - Proporção de referência: 60–70% creme, 15–25% vinho, 5–15% rosa, até
+    5–10% verde-lima. Fundo creme + texto vinho é a combinação padrão.
+  - **Tipografia:** Bodoni Moda Regular (serifada, editorial — títulos,
+    headline, palavra sorteada, preferindo caixa baixa) + DM Sans Regular/
+    Medium/Bold (interface, corpo, botões, legendas). **As duas estão
+    disponíveis no Google Fonts** — carregadas via `<link>`, sem nenhuma
+    ressalva de licença ou de "só funciona em quem já tem a fonte instalada"
+    (diferente do problema que a Aileron/Times tinham).
+  - **Regras de estilo geral do guia, aplicadas ao site:** nada de cantos
+    arredondados em excesso, sombra pesada, gradiente ou efeito 3D — visual
+    flat e editorial. Negrito só com intenção (não em blocos de texto
+    inteiros). Bastante espaço em branco. Contraste forte é obrigatório —
+    nunca combinar cores próximas demais.
+  - **Exceção deliberada mantida:** a palavra sorteada (`.resultado-tema`) é
+    o que a pessoa filma girando/gravando pelo celular, então continua em
+    vinho, bem grande, pelo motivo de contraste na filmagem (não em rosa,
+    que teria contraste baixo demais pra esse uso específico).
 - **Categorias em formato de chip/pill** (Etapa 3, 2026-08-12): visual igual
   ao Em Pauta — botões arredondados numa fileira, maiúsculas. A seleção
   continua **multi-escolha** (diferente do Em Pauta, que é uma categoria por
@@ -151,37 +147,20 @@ sempre uma frase-instrução completa (padrão "Descreva/Conte/Explique por [tem
   aparecer sempre visível, fica escondido atrás de um botão que, ao clicar,
   revela as instruções (com emojis) e o formulário. Usa `<details>/<summary>`
   nativo do HTML — sem JavaScript extra pra isso.
-- **Decisão (2026-08-21): contas de usuário via Firebase.** Reabre
-  deliberadamente a linha "Contas" da tabela da Seção 3 (era "Sem login").
-  Motivo da Lia: quer que cada pessoa tenha um login simples só pra controle
-  e pra que os nichos/temas gerados fiquem gravados pra próxima sessão, em
-  qualquer aparelho — não só no navegador onde ela criou. Isso **não** é uma
-  reabertura da tese do produto (R12/R15 continuam intactas: a IA não gera
-  conteúdo final, os 10 minutos continuam sem campo de escrita); é só a
-  camada de "onde os dados moram".
-  - **Escolha técnica: Firebase (Authentication + Firestore), plano Spark
-    gratuito.** Comparado com Supabase, o Firestore guarda um documento
-    JSON solto por usuária — encaixa quase 1:1 no formato que já existe em
-    `localStorage` (`{ nichos, salvos }`), sem precisar desenhar schema
-    relacional. Supabase foi descartado principalmente porque o projeto
-    gratuito **pausa depois de dias sem uso**, o que é ruim pra um app que
-    precisa estar sempre disponível pras clientes da Lia.
-  - **Integração via `<script>` "compat"** do SDK do Firebase (não a versão
-    modular/ES Modules), pra não violar a R4. Isso é uma **exceção nomeada**
-    à R5 (ver Seção 4) — não abre precedente pra qualquer outra dependência
-    externa, só pra este serviço, com esta finalidade.
-  - **Login continua opcional.** Uso anônimo (sem conta) continua funcionando
-    exatamente como hoje, gravando só em `localStorage` local. Criar conta é
-    uma escolha da pessoa, não uma obrigação pra usar o app.
-  - Ver R16 (segurança) e R17 (LGPD) na Seção 7, e a Etapa 6 revisada na
-    Seção 6.
-- **Onde paramos (2026-08-21):** Etapa 6 concluída e verificada de ponta a
-  ponta no site publicado (ver detalhes na Etapa 6, Seção 6). Próximo
-  trabalho combinado com a Lia: **correções de identidade visual e da tela
-  de login** (ajustes finos, não uma etapa nova do roteiro) — a Lia vai
-  descrever o que quer ajustar numa conversa futura, e as mudanças devem
-  ser subidas ao GitHub só quando ela pedir explicitamente ("pode subir"),
-  como já vem sendo feito.
+- **Decisão revertida em 2026-08-31: contas de usuário removidas.** A Etapa 6
+  (login por e-mail/senha via Firebase Authentication + Firestore) tinha sido
+  implementada e concluída em 2026-08-21, mas a Lia pediu para **tirar essa
+  parte por completo**: o app volta a ser 100% de acesso livre, sem conta,
+  sem barreira nenhuma — só `localStorage`, como era antes da Etapa 6.
+  Removidos: `js/autenticacao.js` (arquivo inteiro), os `<script>` do SDK do
+  Firebase no `index.html`, a seção de login/cadastro na tela, e toda a
+  sincronização com Firestore em `armazenamento.js` (voltou a ser só
+  `localStorage`, igual à Etapa 5 original). As regras R16 e R17 (que só
+  faziam sentido com contas) também foram removidas deste arquivo. Se contas
+  voltarem a ser cogitadas no futuro, é uma decisão nova e explícita da Lia,
+  não uma retomada automática do que existia.
+- **Onde paramos (2026-08-31):** contas removidas e nova identidade visual
+  (ver acima) sendo aplicada em `css/estilo.css`.
 
 ---
 
@@ -192,9 +171,9 @@ sempre uma frase-instrução completa (padrão "Descreva/Conte/Explique por [tem
 | Gravação | **Só cronômetro.** O app NÃO grava áudio nem vídeo. | Sem `MediaRecorder`, sem permissão de microfone/câmera, sem armazenamento de mídia. |
 | Fonte dos temas | **Banco-semente pronto (categorias fixas amplas) + campo de nicho pessoal.** | Categorias fixas escritas por nós na Etapa 1. Nicho pessoal é povoado pela própria pessoa. |
 | Geração de temas do nicho | **Prompt pronto para copiar/colar em IA gratuita externa** (não integrada ao site). | Sem API, sem chave, sem backend, sem custo. A pessoa cola a resposta da IA de volta numa caixa de texto no site. |
-| Contas | **Login opcional via Firebase Authentication** (decisão revista em 2026-08-21). Sem conta, tudo continua em `localStorage` do navegador, como antes. | Com conta, dados sincronizam com Firestore — LGPD volta à mesa (e-mail é dado pessoal, ver R17). Perda de dados de quem usa sem conta continua mitigada por exportar/importar JSON (Etapa 7). |
-| Stack | **HTML + CSS + JavaScript puro**, mais o SDK "compat" do Firebase via `<script>` (exceção nomeada à R5, ver Seção 4). | Sem framework, sem npm, sem build, sem Node.js necessário. A única dependência externa de código é o Firebase. |
-| Custo | **Zero enquanto o uso couber no plano gratuito (Spark) do Firebase.** Não é mais uma garantia estrutural absoluta como antes — é um limite a monitorar (ver R10). | Hospedagem em GitHub Pages ou Netlify (plano free); autenticação/dados no plano Spark do Firebase. |
+| Contas | **Sem login** (decisão revertida em 2026-08-31 — a Etapa 6 com Firebase foi removida). Tudo fica em `localStorage` do navegador. | Acesso livre e imediato pra qualquer pessoa. Perda de dados ao trocar de navegador/aparelho é mitigada por exportar/importar JSON (Etapa 6, ver Seção 6). |
+| Stack | **HTML + CSS + JavaScript puro**, sem nenhuma dependência externa de código. | Sem framework, sem npm, sem build, sem Node.js necessário. |
+| Custo | **Zero, garantia estrutural** (sem servidor, sem banco de dados, sem serviço pago). | Hospedagem em GitHub Pages ou Netlify (plano free). |
 
 ---
 
@@ -205,11 +184,7 @@ sempre uma frase-instrução completa (padrão "Descreva/Conte/Explique por [tem
 - CSS3 puro (variáveis CSS, flexbox, grid, `transition`, `@media`)
 - JavaScript ES6+ *sem módulos* (ver Regra R4)
 - Google Fonts (via `<link>`, com fallback de fonte do sistema)
-- `localStorage` para persistência (uso sem conta)
-- **Firebase Authentication + Firestore**, via SDK "compat" (`<script src=...>`,
-  nunca `type="module"`) — exceção nomeada autorizada em 2026-08-21, só para
-  login e sincronização dos dados da própria pessoa (ver Seção 2 e R16/R17).
-  Plano Spark (gratuito) apenas.
+- `localStorage` para persistência (única forma de guardar dado — sem conta)
 - Git + GitHub (versionamento e deploy)
 - GitHub Pages ou Netlify free (hospedagem estática)
 
@@ -217,13 +192,11 @@ sempre uma frase-instrução completa (padrão "Descreva/Conte/Explique por [tem
 - Qualquer framework de front-end (React, Vue, Svelte, Next.js, Alpine.js…)
 - Qualquer gerenciador de pacotes / `package.json` / `node_modules`
 - Qualquer etapa de build, bundler ou transpilador
-- Qualquer backend, banco de dados ou API externa **além do Firebase
-  Auth/Firestore autorizado acima** (inclusive APIs de IA — continua valendo
-  R14)
-- Qualquer biblioteca via CDN **além do SDK compat do Firebase** (jQuery,
-  Tailwind CDN, animações, ícones)
-- Qualquer serviço pago ou com trial que vire cobrança, ou uso do Firebase
-  além do plano gratuito Spark
+- Qualquer backend, banco de dados ou API externa (inclusive APIs de IA —
+  continua valendo R14)
+- Qualquer biblioteca via CDN além do Google Fonts (jQuery, Tailwind CDN,
+  animações, ícones, Firebase ou qualquer outro serviço de conta/nuvem)
+- Qualquer serviço pago ou com trial que vire cobrança
 - Analytics, cookies de rastreamento, pixel de terceiros
 
 ---
@@ -239,8 +212,7 @@ criador-conteudo/
 │   └── estilo.css         ← todo o CSS, com variáveis no :root
 └── js/
     ├── dados.js           ← banco-semente de temas por categoria
-    ├── armazenamento.js   ← camada única de dados: localStorage e/ou Firestore
-    ├── autenticacao.js    ← login/cadastro/logout via Firebase Auth (Etapa 6)
+    ├── armazenamento.js   ← camada única de dados: localStorage
     ├── roleta.js          ← lógica de sorteio e anti-repetição
     ├── cronometro.js      ← componente de contagem regressiva reutilizável
     └── app.js             ← orquestra a UI e os eventos
@@ -308,17 +280,16 @@ repete tema antes de esgotar o pool.
 **Verificação:** girar 30 vezes seguidas em uma categoria pequena e confirmar no
 console que não houve repetição prematura; testar o modo "Tudo".
 
-### Etapa 3 — Identidade visual e layout ✅ CONCLUÍDA
+### Etapa 3 — Identidade visual e layout ✅ CONCLUÍDA (refeita em 2026-08-31)
 `css/estilo.css` completo: paleta em variáveis CSS, tipografia, hierarquia,
 efeito de "girar" com som e animação, estados de hover/foco. Nome do produto
 definido ("Sala de Ideias"), créditos no cabeçalho e no rodapé, categorias em
 chip, nicho pessoal como botão colapsável com link para a IA treinada da Lia.
-**Verificado:** contraste de texto calculado manualmente (WCAG) para cada par
-cor/fundo; fluxo de categoria única, animação de girar e link da IA testados
-por clique real no navegador. **Pendência conhecida:** fontes Aileron e Times
-New Roman MT Condensed só aparecem certinho em quem já tem elas instaladas
-(ver Seção 2) — ajuste fino de visual pode continuar a qualquer momento, a
-pedido da Lia.
+**Paleta e tipografia foram refeitas em 2026-08-31** seguindo o guia de
+identidade visual que a Lia trouxe pronto (creme/vinho/rosa/verde-lima,
+Bodoni Moda + DM Sans — ver Seção 2). As duas fontes vêm do Google Fonts,
+então não têm mais a ressalva de licença que a Aileron/Times New Roman MT
+Condensed tinham.
 
 ### Etapa 4 — Cronômetros
 `js/cronometro.js`: componente reutilizável de contagem regressiva. Overlay de
@@ -345,42 +316,9 @@ tudo persistido.
 salvar pauta → recarregar → continua na lista; remover nicho/pauta → some da
 tela e do `localStorage` (conferido lendo `localStorage.getItem(...)` direto).
 
-### Etapa 6 — Contas de usuário (login) e sincronização com Firebase ✅ CONCLUÍDA
-`js/autenticacao.js`: cadastro e login por e-mail/senha via Firebase
-Authentication (SDK compat), com logout. `js/armazenamento.js` passa a decidir
-o destino da leitura/escrita: sem sessão ativa, continua gravando só em
-`localStorage`, exatamente como hoje; com sessão ativa, sincroniza o mesmo
-formato (`{ nichos, salvos }`) com um documento único por usuária no Firestore
-(`usuarios/{uid}`). Regras de segurança do Firestore (configuradas no console,
-fora do repositório) restringem cada conta a ler/escrever **só o próprio
-documento** — ver R16. Interface mínima: formulário de entrar/criar conta,
-indicação de quem está logada, botão de sair. Definir e implementar a
-estratégia de mesclagem para quem já tinha nichos/pautas salvos sem conta e
-cria uma depois (ex.: perguntar se quer levar os dados locais pra conta nova).
-Inclui um aviso curto de privacidade no formulário de cadastro (ver R17).
-**Resultado esperado:** criar conta em um navegador, girar/salvar pautas e
-criar nichos, abrir o site logada com a mesma conta em outro navegador ou
-aparelho e ver os mesmos dados. Continuar usando sem conta não muda em nada o
-comportamento atual.
-**Verificação:** criar conta → adicionar nicho e pauta salva → deslogar →
-logar de novo (mesmo navegador) → dados continuam lá; repetir o login em outro
-navegador/aparelho e conferir que os mesmos dados aparecem; tentar ler o
-documento do Firestore de outra conta (via console do Firebase) e confirmar
-que as regras de segurança bloqueiam; usar o app sem criar conta e confirmar
-que nada mudou em relação ao comportamento de hoje.
-**Verificado (2026-08-21), direto no site publicado:** cadastro/login por
-e-mail e senha; nicho criado enquanto logada foi conferido gravado no
-documento do Firestore; simulação de "outro aparelho" (localStorage limpo
-+ recarregar) trouxe o nicho de volta da nuvem sozinho; exclusão de conta
-apagou o documento no Firestore e encerrou a sessão; zero erros no console
-em todo o fluxo. Regras de segurança do Firestore (R16) já coladas e
-publicadas no console pela Lia. **Nota de teste:** logo após publicar uma
-atualização, o navegador pode mostrar a versão antiga por causa de cache —
-um Ctrl+Shift+R resolve (documentado no `COMO-ATUALIZAR-O-SITE.md`).
-
-### Etapa 7 — Exportar / importar e resiliência
+### Etapa 6 — Exportar / importar e resiliência
 Botão de exportar tudo para um arquivo `.json` e importar de volta (backup e
-troca de dispositivo — inclusive para quem prefere não criar conta).
+troca de dispositivo, já que não existe conta pra sincronizar automaticamente).
 Tratamento de `localStorage` cheio, JSON corrompido e primeiro acesso.
 **Resultado esperado:** exportar num navegador e importar em outro reproduz o
 mesmo estado.
@@ -388,7 +326,7 @@ mesmo estado.
 dados batem; importar um arquivo inválido de propósito e conferir se o app mostra
 erro amigável em vez de quebrar.
 
-### Etapa 8 — Mobile, acessibilidade e QA
+### Etapa 7 — Mobile, acessibilidade e QA
 Responsividade (o uso real é no celular), navegação por teclado, `aria-live` para
 o tema sorteado e para o cronômetro, `prefers-reduced-motion`, testes no Chrome,
 Firefox, Safari/iOS e Android.
@@ -396,7 +334,7 @@ Firefox, Safari/iOS e Android.
 **Verificação:** rodar o checklist de QA (criado nesta etapa) em pelo menos 2
 navegadores e 1 celular real; Lighthouse com Acessibilidade ≥ 90.
 
-### Etapa 9 — Deploy gratuito e documentação
+### Etapa 8 — Deploy gratuito e documentação
 `git init`, repositório no GitHub, publicação no GitHub Pages (ou Netlify),
 `README.md` explicando o projeto e como editar os temas.
 **Resultado esperado:** um link público funcionando que a Lia pode compartilhar.
@@ -404,7 +342,7 @@ navegadores e 1 celular real; Lighthouse com Acessibilidade ≥ 90.
 Wi-Fi), e executar o fluxo completo: girar → pensar/pesquisar/escrever à mão por
 10 min → falar 1 min → salvar.
 
-### Etapa 10 — (Opcional, só se a Lia pedir) PWA
+### Etapa 9 — (Opcional, só se a Lia pedir) PWA
 `manifest.json` + service worker para instalar na tela inicial e funcionar offline.
 **Verificação:** instalar no celular e usar em modo avião.
 
@@ -433,10 +371,8 @@ Wi-Fi), e executar o fluxo completo: girar → pensar/pesquisar/escrever à mão
   para a Lia editar sozinha depois.
 - **R8 — Sem código morto.** Não deixar funções "para o futuro", `console.log` de
   depuração ou CSS não usado.
-- **R9 — Toda escrita em `localStorage` ou Firestore passa por
-  `armazenamento.js`.** Nenhum outro arquivo chama `localStorage` ou o SDK do
-  Firestore diretamente — inclusive `autenticacao.js` só cuida de login/logout,
-  nunca lê ou grava os dados de nichos/pautas.
+- **R9 — Toda escrita em `localStorage` passa por `armazenamento.js`.**
+  Nenhum outro arquivo chama `localStorage` diretamente.
 - **R10 — Custo zero é inegociável.** Se a única solução para um problema for paga,
   parar e apresentar as alternativas gratuitas para a Lia decidir.
 - **R11 — Reportar honestamente.** Se algo não funcionou, não foi testado ou ficou
@@ -462,32 +398,11 @@ Wi-Fi), e executar o fluxo completo: girar → pensar/pesquisar/escrever à mão
   óbvia de UX. Motivo: é uma decisão de propósito da Lia, não uma lacuna a
   preencher — o app existe para afastar a pessoa da tela nesse momento, não
   para prender ela mais tempo nela.
-- **R16 — Segurança das contas: cada usuária só acessa os próprios dados.**
-  Nunca implementar autenticação própria (sem guardar senha em texto puro,
-  sem hash caseiro) — usar sempre o Firebase Authentication, que já cuida
-  disso. As chaves de configuração do Firebase (`apiKey` etc.) que ficam
-  visíveis no código do site são públicas por design do Firebase — a
-  segurança de verdade vem das **regras de segurança do Firestore**
-  (configuradas no console, restringindo cada documento a ser lido/escrito
-  só pelo `uid` dono dele), não do sigilo dessas chaves. Nunca desativar ou
-  afrouxar essas regras para "testar mais rápido" sem repor antes de
-  qualquer uso real. Motivo: uma regra maliciosamente permissiva (`allow
-  read, write: if true`) exporia os dados de todas as usuárias a qualquer
-  pessoa.
-- **R17 — LGPD: coletar o mínimo, ser transparente, permitir apagar tudo.**
-  Com contas, o app passa a tratar dado pessoal (e-mail, e indiretamente os
-  nichos/pautas de cada pessoa). Por isso: (a) pedir só e-mail e senha no
-  cadastro, nada de nome completo, telefone ou dados extras sem necessidade
-  real; (b) ter um aviso curto e claro no formulário de cadastro dizendo o
-  que é guardado (e-mail para login; nichos e pautas salvas, associados à
-  conta) e que não é compartilhado com terceiros nem usado para outro fim;
-  (c) a pessoa precisa conseguir **apagar a própria conta e os próprios
-  dados** (documento no Firestore + conta no Firebase Auth) a partir do
-  app, sem precisar pedir isso à Lia por fora; (d) nenhum dado de uma conta
-  é usado para treinar, analisar ou divulgar nada — só existe para a própria
-  dona ver de novo depois. Motivo: e-mail e conteúdo gerado pela pessoa são
-  dados pessoais sob a LGPD; mesmo um app gratuito e simples precisa desse
-  cuidado mínimo quando guarda dado pessoal em nuvem.
+- **R16 — Sem conta, sem dado pessoal em nuvem.** O app não coleta e-mail,
+  senha ou qualquer identificador de quem usa. Tudo o que a pessoa cria
+  (nichos, pautas salvas) fica só no `localStorage` do navegador dela — a
+  Lia e ninguém mais tem acesso a esses dados. Não reabrir login/contas sem
+  pedido explícito e novo da Lia (ver decisão de 2026-08-31 na Seção 2).
 
 ---
 
@@ -514,10 +429,9 @@ Wi-Fi), e executar o fluxo completo: girar → pensar/pesquisar/escrever à mão
 | 3 — Visual | Opus 5 | think |
 | 4 — Cronômetros | Sonnet 5 | think hard |
 | 5 — Personalização | Opus 5 | think |
-| 6 — Contas (login/Firebase) | Opus 5 | think hard |
-| 7 — Exportar/importar | Sonnet 5 | think |
-| 8 — Mobile e QA | Sonnet 5 | think |
-| 9 — Deploy e README | Sonnet 5 | normal |
+| 6 — Exportar/importar | Sonnet 5 | think |
+| 7 — Mobile e QA | Sonnet 5 | think |
+| 8 — Deploy e README | Sonnet 5 | normal |
 
 Subir para Opus 5 / `ultrathink` quando: um bug persistir depois de 2 tentativas,
 uma decisão afetar a arquitetura, ou a Lia não estiver satisfeita com o resultado
@@ -539,26 +453,19 @@ O projeto está **concluído** quando todos os itens abaixo forem verdadeiros:
 - [ ] O sorteio não repete tema antes de esgotar o pool ativo.
 - [ ] Os cronômetros de 10 min e 1 min funcionam com desvio menor que 1 segundo,
       inclusive com a aba em segundo plano.
-- [ ] Os dados persistem após fechar e reabrir o navegador (com ou sem conta).
+- [ ] Os dados persistem após fechar e reabrir o navegador.
 - [ ] Existe exportar/importar JSON funcionando entre navegadores diferentes.
-- [ ] É possível criar conta, logar e ver os mesmos nichos/pautas em outro
-      navegador ou aparelho; usar sem conta continua funcionando igual a antes.
-- [ ] As regras de segurança do Firestore impedem uma conta de ler/escrever os
-      dados de outra.
-- [ ] Existe um jeito, dentro do app, de apagar a própria conta e os próprios
-      dados (R17).
 - [ ] O app é totalmente utilizável em um celular real, com uma mão.
 - [ ] Lighthouse: Acessibilidade ≥ 90 e Performance ≥ 90.
 - [ ] Console do navegador sem erros em nenhuma tela.
 - [ ] `README.md` explica como rodar localmente e como editar os temas.
-- [ ] Custo total do projeto: R$ 0,00 dentro do plano gratuito do Firebase.
+- [ ] Custo total do projeto: R$ 0,00.
 
-**Fora de escopo da v1** (só entram em uma v2, se a Lia pedir): gravação de
+**Fora de escopo** (só entram se a Lia pedir explicitamente): gravação de
 áudio/vídeo no navegador, IA integrada por API dentro do site (o fluxo de IA
-da v1 é externo, por copiar/colar), atualização automática da categoria "Em
-Alta", compartilhamento social, histórico/estatísticas de uso, temas
-colaborativos entre usuários, domínio próprio pago, login social (Google/Apple
-etc. — a v1 de contas é só e-mail/senha).
+é externo, por copiar/colar), atualização automática da categoria "Em Alta",
+compartilhamento social, histórico/estatísticas de uso, temas colaborativos
+entre usuários, domínio próprio pago, qualquer tipo de conta/login.
 
 ---
 
@@ -572,6 +479,3 @@ etc. — a v1 de contas é só e-mail/senha).
 - **Banco-semente:** temas das categorias fixas, escritos por nós, para o primeiro acesso.
 - **Prompt de geração:** texto pronto que o site monta para a pessoa copiar e colar numa IA gratuita, pedindo temas para o nicho dela.
 - **Salvos:** pautas favoritadas pelo usuário.
-- **Conta:** login opcional por e-mail/senha (Firebase Authentication) que permite os nichos e pautas salvas acompanharem a pessoa em qualquer navegador ou aparelho.
-- **Firestore:** banco de dados do Firebase usado para guardar, por conta, o mesmo formato de dados que hoje vive no `localStorage`.
-- **Regras de segurança (Firestore):** configuração no console do Firebase que restringe cada documento a ser lido/escrito só pela conta dona dele — é o que garante que uma usuária não acesse os dados de outra.

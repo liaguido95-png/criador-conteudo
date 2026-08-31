@@ -1,17 +1,22 @@
-/* Identidade visual da Sala de Ideias (Etapa 3).
-   Paleta e fontes vieram da Lia; ver CLAUDE.md para a explicação de onde
-   cada cor é usada e a ressalva sobre as fontes Aileron / Times New Roman
-   MT Condensed não serem embutíveis de graça (ficam como fonte de sistema:
-   só aparecem certinho pra quem já tem elas instaladas). */
+/* Identidade visual da Sala de Ideias (Etapa 3, refeita em 2026-08-31).
+   Guia de marca da Lia, resumido:
+   - Creme #FFFDEC = fundo. Vinho #502533 = texto principal (substitui preto).
+   - Rosa #FF9DD9 = destaque, usado com moderação pra dirigir o olhar.
+   - Verde-lima #C1FF72 = acento pontual (etiquetas, marca-texto), nunca em
+     área grande.
+   - Bodoni Moda Regular = headline/serifada editorial. DM Sans = interface,
+     corpo, CTAs. Bold só com intenção, nunca em blocos inteiros.
+   - Visual flat: cantos retos (ou quase retos), sem sombra pesada, sem
+     gradiente, sem efeito 3D/vidro. Contraste forte é obrigatório. */
 
 :root {
-  --cor-fundo: #ffccdd;
-  --cor-texto-claro: #ffffff;
-  --cor-texto-destaque: #502533;
-  --cor-secundaria: #c1ff72;
+  --cor-creme: #FFFDEC;
+  --cor-vinho: #502533;
+  --cor-rosa: #FF9DD9;
+  --cor-lima: #C1FF72;
 
-  --fonte-principal: "Aileron", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --fonte-destaque: "Times New Roman MT Condensed", "Times New Roman", Georgia, serif;
+  --fonte-serif: "Bodoni Moda", Georgia, "Times New Roman", serif;
+  --fonte-sans: "DM Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
   --espaco: 1rem;
 }
@@ -22,42 +27,42 @@
 
 body {
   margin: 0;
-  font-family: var(--fonte-principal);
-  color: var(--cor-texto-destaque);
-  background-color: var(--cor-fundo);
+  font-family: var(--fonte-sans);
+  color: var(--cor-vinho);
+  background-color: var(--cor-creme);
   line-height: 1.5;
 }
 
 .pagina {
   max-width: 640px;
   margin: 0 auto;
-  padding: 2rem 1.2rem 4rem;
+  padding: 2.5rem 1.2rem 4rem;
   text-align: center;
 }
 
 /* Cabeçalho */
 
 .titulo-site {
-  font-family: var(--fonte-destaque);
-  font-weight: 700;
-  font-size: 3rem;
-  letter-spacing: 0.02em;
+  font-family: var(--fonte-serif);
+  font-weight: 400;
+  font-size: clamp(2.4rem, 7vw, 3.4rem);
+  letter-spacing: 0;
   margin: 0;
 }
 
 .credito {
-  margin: 0.4rem 0 0;
+  margin: 0.5rem 0 0;
   font-size: 0.8rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--cor-texto-destaque);
-  opacity: 0.7;
+  letter-spacing: 0.03em;
+  color: var(--cor-vinho);
+  opacity: 0.75;
 }
 
 .credito a {
-  color: var(--cor-texto-destaque);
+  color: var(--cor-vinho);
   text-decoration: underline;
   opacity: 1;
+  font-weight: 700;
 }
 
 .credito a:hover {
@@ -74,40 +79,36 @@ body {
   margin: 0;
 }
 
-/* Botões e chips — todos compartilham o mesmo "vidro líquido" verde:
-   fundo semitransparente + desfoque atrás (backdrop-filter) + borda clara,
-   como pedido. Cada variante só muda intensidade/tamanho, não a família. */
+/* Botões e chips: visual flat, cantos quase retos, sem sombra/gradiente. */
 
 .chip,
 .chip-tudo,
 .botao-pill,
 .botao-girar,
 .botao-salvar {
-  font-family: var(--fonte-principal);
+  font-family: var(--fonte-sans);
   font-weight: 700;
-  color: var(--cor-texto-destaque);
-  border-radius: 999px;
+  color: var(--cor-vinho);
+  border-radius: 2px;
   cursor: pointer;
-  background-color: rgba(193, 255, 114, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  -webkit-backdrop-filter: blur(10px) saturate(160%);
-  backdrop-filter: blur(10px) saturate(160%);
-  box-shadow: 0 4px 14px rgba(80, 37, 51, 0.12);
-  transition: background-color 0.15s ease, opacity 0.15s ease;
+  background-color: var(--cor-creme);
+  border: 1.5px solid var(--cor-vinho);
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .chip:hover,
 .chip-tudo:hover,
 .botao-pill:hover,
 .botao-girar:hover {
-  background-color: rgba(193, 255, 114, 0.5);
+  background-color: var(--cor-rosa);
+  border-color: var(--cor-rosa);
 }
 
-/* Selecionado/ativo: vidro mais saturado, pra diferenciar sem sair da família verde */
+/* Selecionado/ativo: rosa é a cor que "dirige o olhar" no guia da Lia. */
 .chip[aria-pressed="true"],
 .chip-tudo[aria-pressed="true"] {
-  background-color: rgba(193, 255, 114, 0.75);
-  border-color: var(--cor-texto-destaque);
+  background-color: var(--cor-rosa);
+  border-color: var(--cor-rosa);
 }
 
 /* Chips de categoria */
@@ -143,16 +144,15 @@ body {
 .tagline {
   margin-top: 1.2rem;
   font-size: 0.9rem;
-  color: var(--cor-texto-destaque);
+  color: var(--cor-vinho);
   opacity: 0.75;
 }
 
 /* Área principal da roleta. O tema sorteado é a parte que a pessoa vai
-   filmar (girando e gravando pelo celular): precisa de bastante contraste
-   contra o fundo rosa, por isso vai na cor principal (ameixa escuro) e
-   bem grande. A legenda da categoria, menor, fica em branco por cima —
-   como tem pouco contraste sozinha, leva uma sombra escura sutil atrás
-   só pra não sumir de vez. */
+   filmar (girando e gravando pelo celular): precisa de contraste forte,
+   por isso fica em vinho — não em rosa, que teria contraste baixo demais
+   pra esse uso específico. A categoria vira uma etiqueta lima, tipo
+   marca-texto, um dos usos que o guia sugere pra essa cor. */
 
 .area-roleta {
   margin-top: 3rem;
@@ -160,40 +160,48 @@ body {
 
 .resultado-categoria {
   margin: 0;
-  min-height: 1.4em;
-  font-size: 0.9rem;
+  min-height: 1.6em;
+}
+
+.resultado-categoria:not(:empty) {
+  display: inline-block;
+  font-family: var(--fonte-sans);
+  font-size: 0.8rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--cor-texto-claro);
-  text-shadow: 0 1px 6px rgba(80, 37, 51, 0.5);
+  color: var(--cor-vinho);
+  background-color: var(--cor-lima);
+  padding: 0.25rem 0.6rem;
 }
 
 .resultado-tema {
-  font-family: var(--fonte-destaque);
-  font-weight: 700;
+  font-family: var(--fonte-serif);
+  font-weight: 400;
   font-size: clamp(2.6rem, 9vw, 4.5rem);
   line-height: 1.15;
-  margin: 0.4rem 0 0;
-  color: var(--cor-texto-destaque);
+  margin: 0.5rem 0 0;
+  color: var(--cor-vinho);
 }
 
 .botao-girar {
   margin-top: 2rem;
-  font-size: 1.1rem;
-  letter-spacing: 0.05em;
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   padding: 1rem 3rem;
-  border: none;
-  background-color: rgba(193, 255, 114, 0.85);
+  background-color: var(--cor-vinho);
+  color: var(--cor-creme);
+  border-color: var(--cor-vinho);
 }
 
 .botao-girar:hover {
-  background-color: var(--cor-secundaria);
+  background-color: var(--cor-rosa);
+  color: var(--cor-vinho);
 }
 
 .botao-girar:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
@@ -219,7 +227,7 @@ body {
   margin-top: 0.8rem;
   font-size: 0.85rem;
   font-weight: 700;
-  color: var(--cor-texto-destaque);
+  color: var(--cor-vinho);
 }
 
 .botoes-secundarios button:disabled,
@@ -232,7 +240,7 @@ body {
   margin-top: 1rem;
   font-size: 0.8rem;
   padding: 0.4rem 1rem;
-  background-color: rgba(193, 255, 114, 0.2);
+  border-color: rgba(80, 37, 51, 0.4);
 }
 
 /* Histórico e pautas salvas */
@@ -250,9 +258,9 @@ body {
 .botao-remover {
   background: none;
   border: none;
-  font-family: var(--fonte-principal);
+  font-family: var(--fonte-sans);
   font-size: 0.85rem;
-  color: var(--cor-texto-destaque);
+  color: var(--cor-vinho);
   opacity: 0.6;
   cursor: pointer;
 }
@@ -262,14 +270,15 @@ body {
 }
 
 .titulo-secao {
-  font-family: var(--fonte-principal);
+  font-family: var(--fonte-sans);
+  font-weight: 700;
   font-size: 1rem;
   margin: 0;
 }
 
 .aviso-sessao {
   font-size: 0.8rem;
-  color: var(--cor-texto-destaque);
+  color: var(--cor-vinho);
   opacity: 0.65;
   margin: 0.2rem 0 0.8rem;
 }
@@ -279,23 +288,6 @@ body {
   overflow-y: auto;
   padding-left: 1.2rem;
   font-size: 0.9rem;
-}
-
-/* Conta de usuário (Etapa 6) */
-
-.secao-conta {
-  margin-top: 1.5rem;
-  padding: 1rem;
-  text-align: left;
-  background-color: rgba(255, 255, 255, 0.4);
-  border-radius: 8px;
-}
-
-.botoes-conta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-  margin-top: 1rem;
 }
 
 /* Nicho pessoal (colapsável) */
@@ -323,9 +315,9 @@ body {
 .instrucoes-nicho {
   font-size: 0.9rem;
   line-height: 1.8;
-  color: var(--cor-texto-destaque);
-  background-color: rgba(255, 255, 255, 0.4);
-  border-radius: 8px;
+  color: var(--cor-vinho);
+  background-color: rgba(80, 37, 51, 0.06);
+  border-left: 3px solid var(--cor-lima);
   padding: 1rem;
 }
 
@@ -337,43 +329,39 @@ label {
 }
 
 input[type="text"],
-input[type="email"],
-input[type="password"],
 textarea {
   width: 100%;
   padding: 0.6rem;
   margin-top: 0.3rem;
-  border: 1px solid var(--cor-texto-destaque);
-  border-radius: 8px;
+  border: 1.5px solid var(--cor-vinho);
+  border-radius: 2px;
   font-family: inherit;
   font-size: 1rem;
-  background-color: rgba(255, 255, 255, 0.6);
-  color: var(--cor-texto-destaque);
+  background-color: var(--cor-creme);
+  color: var(--cor-vinho);
 }
 
 .aviso-copiado {
   margin-left: 0.6rem;
   font-weight: 700;
-  color: var(--cor-texto-destaque);
+  color: var(--cor-vinho);
 }
 
 .erro {
-  color: #7a1010;
+  color: #a4243b;
   font-weight: 700;
   margin-top: 0.5rem;
 }
 
-/* Overlay dos cronômetros (Etapa 4) */
+/* Overlay dos cronômetros */
 
-/* O seletor ":not([hidden])" é essencial aqui: sem ele, "display: flex"
-   entra em conflito com o atributo "hidden" do HTML (que pede
-   "display: none") e o navegador obedece o CSS, não o atributo — o overlay
-   ficava visualmente preso na tela mesmo depois de "fechado" no JavaScript.
-   Foi o bug que travava a tela com o cronômetro aberto. */
+/* O seletor ":not([hidden])" é essencial: sem ele, "display: flex" entra em
+   conflito com o atributo "hidden" do HTML e o navegador obedece o CSS, não
+   o atributo — o overlay fica visualmente preso na tela mesmo "fechado". */
 .overlay-cronometro:not([hidden]) {
   position: fixed;
   inset: 0;
-  background-color: rgba(80, 37, 51, 0.92);
+  background-color: rgba(80, 37, 51, 0.94);
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -383,37 +371,38 @@ textarea {
 }
 
 .cartao-cronometro {
-  background-color: var(--cor-fundo);
-  border-radius: 16px;
+  background-color: var(--cor-creme);
+  border-radius: 2px;
   padding: 2.5rem 2rem;
   max-width: 420px;
   width: 100%;
+  margin-top: 2rem;
   text-align: center;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
 }
 
 .cronometro-titulo {
   margin: 0;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   font-size: 0.9rem;
-  color: var(--cor-texto-destaque);
+  color: var(--cor-vinho);
 }
 
 .cronometro-tempo {
-  font-family: var(--fonte-destaque);
+  font-family: var(--fonte-serif);
+  font-weight: 400;
   font-size: 4rem;
   line-height: 1.1;
   margin: 0.3rem 0 0;
-  color: var(--cor-texto-destaque);
+  color: var(--cor-vinho);
   font-variant-numeric: tabular-nums;
 }
 
 .cronometro-reforco {
   margin: 0.8rem 0 0;
   font-size: 0.85rem;
-  color: var(--cor-texto-destaque);
+  color: var(--cor-vinho);
   opacity: 0.8;
 }
 
@@ -421,7 +410,7 @@ textarea {
   margin: 1rem 0 0;
   font-weight: 700;
   font-size: 1.2rem;
-  color: var(--cor-texto-destaque);
+  color: var(--cor-vinho);
 }
 
 .cronometro-acoes {
