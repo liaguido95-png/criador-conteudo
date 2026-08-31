@@ -14,18 +14,10 @@ $RECYCLE.BIN/
 *.swo
 *~
 
-# Segredos e configuração local (nunca commitar chaves privadas, mesmo que
-# o apiKey público do Firebase não seja segredo — ver R16 do CLAUDE.md)
+# Segredos e configuração local (nunca commitar chaves privadas)
 .env
 .env.*
 *.local
-
-# Firebase CLI (cache e logs gerados ao rodar `firebase deploy`/`firebase serve`)
-.firebase/
-firebase-debug.log
-firestore-debug.log
-ui-debug.log
-.firebaserc.local
 
 # Logs diversos
 *.log

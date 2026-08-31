@@ -1,7 +1,7 @@
 # Guia simples: onde tudo mora e como atualizar o site
 
 > Este arquivo explica, do jeitinho mais simples possível, onde o projeto
-> "Sala de Ideias" está guardado e como fazer uma mudança aparecer no site
+> "Giro de Ideias" está guardado e como fazer uma mudança aparecer no site
 > de verdade, pro mundo ver. Não precisa saber programar pra entender isso.
 
 ---
@@ -16,7 +16,6 @@ precisam ficar "combinando" entre si.
 | 💻 **Seu computador** | A pasta onde os arquivos do site ficam guardados, no seu PC. É aqui que as mudanças são feitas primeiro. | `C:\Users\lia.chinellato\desktop\criador-conteudo` |
 | 🐙 **GitHub** | Um "cofre" na internet que guarda uma cópia de tudo, com o histórico de cada mudança. | https://github.com/liaguido95-png/criador-conteudo |
 | 🌐 **O site no ar** | O endereço que qualquer pessoa acessa pra usar o app. Ele é gerado automaticamente a partir do que está no GitHub. | https://liaguido95-png.github.io/criador-conteudo/ |
-| 🔥 **Firebase** | Onde ficam guardados os logins e os dados de quem cria conta (nichos, pautas salvas). | https://console.firebase.google.com (projeto "sala-de-ideias") |
 
 **Regra de ouro:** mudar um arquivo no seu computador **não muda o site
 sozinho**. É preciso "mandar" a mudança pro GitHub — só aí o site se
@@ -32,7 +31,7 @@ pro Claude Code, do jeito que você já vem fazendo nesta conversa. Por
 exemplo:
 
 > "Muda a cor do botão de Girar pra verde."
-> "A tela de login está feia, deixa mais parecida com o resto do site."
+> "O layout no computador está apertado, aproveita melhor a tela."
 > "O texto tal está com erro de português."
 
 O Claude edita os arquivos direto na pasta do seu computador (item 💻 da
@@ -88,22 +87,16 @@ tudo. Se algo sair errado, dá pra voltar pra uma versão anterior. Mas só
 peça pro Claude "subir pro GitHub" depois de conferir que a mudança ficou
 do jeito que você queria, testando no navegador.
 
-**"Preciso abrir o GitHub ou o Firebase toda vez?"**
+**"Preciso abrir o GitHub toda vez?"**
 Não. No dia a dia, você só conversa com o Claude Code normalmente, como já
-faz. Você só precisaria abrir o GitHub ou o Firebase se quisesse ver o
-histórico de mudanças, ou ver a lista de contas criadas no app.
+faz. Você só precisaria abrir o GitHub se quisesse ver o histórico de
+mudanças.
 
 **"E se eu quiser mudar de computador?"**
 Como tudo fica guardado no GitHub (item 🐙 da tabela), dá pra continuar o
 projeto de qualquer computador — é só uma questão de configurar o acesso
 de novo naquele computador (isso é trabalho técnico único, não é algo que
 você precisa fazer sozinha).
-
-**"O que é esse tal de 'Firebase' de novo?"**
-É o serviço gratuito que guarda o login e os dados de quem cria conta no
-app (Etapa 6 do projeto). Ele é separado do GitHub: o GitHub guarda o
-*código* do site; o Firebase guarda os *dados* de quem usa o site com
-conta.
 
 ---
 

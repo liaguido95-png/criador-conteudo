@@ -1,4 +1,4 @@
-/* Identidade visual da Sala de Ideias (Etapa 3, refeita em 2026-08-31).
+/* Identidade visual do Giro de Ideias (Etapa 3, refeita em 2026-08-31).
    Guia de marca da Lia, resumido:
    - Creme #FFFDEC = fundo. Vinho #502533 = texto principal (substitui preto).
    - Rosa #FF9DD9 = destaque, usado com moderação pra dirigir o olhar.
@@ -38,6 +38,34 @@ body {
   margin: 0 auto;
   padding: 2.5rem 1.2rem 4rem;
   text-align: center;
+}
+
+/* No celular a coluna estreita funciona bem; a partir daqui tem tela de
+   sobra, então a página se alarga pra aproveitar o espaço (menos quebra de
+   linha nos chips e no tema sorteado). */
+@media (min-width: 700px) {
+  .pagina {
+    max-width: 900px;
+    padding: 3rem 2rem 5rem;
+  }
+}
+
+@media (min-width: 1100px) {
+  .pagina {
+    max-width: 1100px;
+    padding: 3.5rem 2rem 6rem;
+  }
+}
+
+/* Listas e formulário do nicho ficam melhores numa coluna de leitura mais
+   estreita, mesmo com a página mais larga no desktop — texto longo esticado
+   de ponta a ponta da tela fica ruim de ler. */
+.secao-historico,
+.secao-salvos,
+.secao-nicho {
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Cabeçalho */
@@ -177,8 +205,8 @@ body {
 
 .resultado-tema {
   font-family: var(--fonte-serif);
-  font-weight: 400;
-  font-size: clamp(2.6rem, 9vw, 4.5rem);
+  font-weight: 700;
+  font-size: clamp(2.6rem, 7vw, 5.5rem);
   line-height: 1.15;
   margin: 0.5rem 0 0;
   color: var(--cor-vinho);

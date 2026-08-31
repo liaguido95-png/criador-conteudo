@@ -1,4 +1,4 @@
-# CLAUDE.md — Sala de Ideias (roleta de pautas para criadores de conteúdo)
+# CLAUDE.md — Giro de Ideias (roleta de pautas para criadores de conteúdo)
 
 > Este arquivo é o contrato de trabalho entre a Lia e o Claude Code neste projeto.
 > Leia-o por inteiro antes de qualquer ação. Ele tem prioridade sobre suposições.
@@ -95,7 +95,8 @@ mudança** (ver Seção 7).
   **Decisão (2026-08-13):** o prompt gerado por `montarPromptNicho()` em
   `js/app.js` fica como está — a Lia decidiu não trocar o texto padrão, só o
   link da IA de destino.
-- **Nome do produto: "Sala de Ideias"** (decidido em 2026-08-12).
+- **Nome do produto: "Giro de Ideias"** (decidido em 2026-08-12; renomeado de
+  "Sala de Ideias" em 2026-08-31, a pedido da Lia).
 - **Créditos visíveis no site (atualizado em 2026-08-13):**
   - No cabeçalho, logo abaixo do título: "criado por @liaachinellato", link
     para https://www.instagram.com/liaachinellato/.
@@ -155,8 +156,20 @@ mudança** (ver Seção 7).
   faziam sentido com contas) também foram removidas deste arquivo. Se contas
   voltarem a ser cogitadas no futuro, é uma decisão nova e explícita da Lia,
   não uma retomada automática do que existia.
-- **Onde paramos (2026-08-31):** contas removidas e nova identidade visual
-  (ver acima) sendo aplicada em `css/estilo.css`.
+- **Layout responsivo de desktop e negrito no tema (2026-08-31):** o layout
+  original ficava confortável no celular, mas apertado demais no desktop —
+  a página inteira ficava travada em 640px de largura em qualquer tela.
+  Agora `.pagina` se alarga por `@media` a partir de 700px e 1100px de
+  viewport (chips e o tema sorteado aproveitam o espaço extra), enquanto
+  histórico/salvos/nicho continuam numa coluna de leitura mais estreita
+  (fica ruim ler texto longo esticado full-width). O celular não mudou. A
+  palavra sorteada (`.resultado-tema`) também ganhou `font-weight: 700`
+  (antes era Regular) a pedido da Lia, pra ter mais destaque — é uma
+  exceção deliberada à regra geral do guia de marca de evitar Bodoni Moda
+  Bold como padrão (Seção 2), só pra esse elemento específico.
+- **Onde paramos (2026-08-31):** contas removidas, nova identidade visual,
+  banco de temas atualizado, layout responsivo de desktop e nome do produto
+  trocado para "Giro de Ideias".
 
 ---
 
@@ -284,7 +297,7 @@ console que não houve repetição prematura; testar o modo "Tudo".
 ### Etapa 3 — Identidade visual e layout ✅ CONCLUÍDA (refeita em 2026-08-31)
 `css/estilo.css` completo: paleta em variáveis CSS, tipografia, hierarquia,
 efeito de "girar" com som e animação, estados de hover/foco. Nome do produto
-definido ("Sala de Ideias"), créditos no cabeçalho e no rodapé, categorias em
+definido ("Giro de Ideias"), créditos no cabeçalho e no rodapé, categorias em
 chip, nicho pessoal como botão colapsável com link para a IA treinada da Lia.
 **Paleta e tipografia foram refeitas em 2026-08-31** seguindo o guia de
 identidade visual que a Lia trouxe pronto (creme/vinho/rosa/verde-lima,

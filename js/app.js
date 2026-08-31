@@ -407,7 +407,7 @@ var LINK_IA_LIA = "https://chatgpt.com/g/g-6a7ce22860dc8191b7021a3195fabc30-l-ia
 
 function aoClicarIrParaIA() {
   // Passar "width"/"height" pede pro navegador abrir uma JANELA separada,
-  // em vez de uma aba na mesma janela — assim a Sala de Ideias não some.
+  // em vez de uma aba na mesma janela — assim o Giro de Ideias não some.
   window.open(LINK_IA_LIA, "_blank", "noopener,noreferrer,width=480,height=850");
 }
 
