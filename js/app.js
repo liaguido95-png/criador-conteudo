@@ -140,20 +140,52 @@ function obterAudioCtx() {
   return estadoApp.audioCtx;
 }
 
+// Pedir pra tocar exatamente "agora" faz o som chegar atrasado: quando o
+// navegador processa o pedido, esse instante já passou. Uma folga mínima à
+// frente resolve, sem atraso perceptível pra quem ouve.
+var FOLGA_AGENDAMENTO = 0.02;
+
+// O navegador só libera áudio depois de um gesto da pessoa, e montar o
+// contexto de áudio pela primeira vez custa alguns milissegundos. Se isso
+// acontecesse no meio do primeiro giro, os primeiros tiques saíam atrasados
+// ou nem saíam — e só a partir do segundo giro o som ficava certo. Por isso
+// o áudio é preparado no primeiro toque/tecla da pessoa na página, bem antes
+// de ser necessário.
+function prepararAudio() {
+  try {
+    var ctx = obterAudioCtx();
+    // Um som mudo de um único sample: alguns navegadores só destravam o áudio
+    // de verdade depois que alguma coisa é de fato tocada dentro do gesto.
+    var fonte = ctx.createBufferSource();
+    fonte.buffer = ctx.createBuffer(1, 1, 22050);
+    fonte.connect(ctx.destination);
+    fonte.start(0);
+  } catch (e) {
+    // Sem Web Audio: o site funciona igual, só sem som.
+  }
+}
+
 // Som curto de "tique", usado na animação de girar.
 function tocarTique() {
   try {
     var ctx = obterAudioCtx();
+    // Se o áudio ainda estiver destravando, é melhor perder este tique do que
+    // enfileirar sons atrasados que sairiam todos juntos depois.
+    if (ctx.state !== "running") {
+      return;
+    }
+
+    var inicio = ctx.currentTime + FOLGA_AGENDAMENTO;
     var osc = ctx.createOscillator();
     var ganho = ctx.createGain();
     osc.type = "square";
     osc.frequency.value = 720;
-    ganho.gain.setValueAtTime(0.06, ctx.currentTime);
-    ganho.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.06);
+    ganho.gain.setValueAtTime(0.06, inicio);
+    ganho.gain.exponentialRampToValueAtTime(0.0001, inicio + 0.06);
     osc.connect(ganho);
     ganho.connect(ctx.destination);
-    osc.start();
-    osc.stop(ctx.currentTime + 0.06);
+    osc.start(inicio);
+    osc.stop(inicio + 0.06);
   } catch (e) {
     // Sem Web Audio disponível: o efeito visual continua, só sem som.
   }
@@ -166,6 +198,10 @@ function tocarTique() {
 function tocarSininho() {
   try {
     var ctx = obterAudioCtx();
+    if (ctx.state !== "running") {
+      return;
+    }
+
     var fundamental = 880;
     var harmonicos = [
       { proporcao: 1, volume: 0.09, duracao: 1.8 },
@@ -178,7 +214,7 @@ function tocarSininho() {
       harmonicos.forEach(function (h) {
         var osc = ctx.createOscillator();
         var ganho = ctx.createGain();
-        var inicio = ctx.currentTime + atrasoBatida;
+        var inicio = ctx.currentTime + FOLGA_AGENDAMENTO + atrasoBatida;
         // a segunda batida sai um pouco mais baixa, como um sino de verdade
         var volume = atrasoBatida > 0 ? h.volume * 0.7 : h.volume;
 
@@ -646,6 +682,13 @@ function iniciar() {
 
   atualizarDicaTeclado();
   document.addEventListener("keydown", aoApertarTecla);
+
+  // Prepara o áudio no primeiro gesto da pessoa na página, qualquer que seja
+  // (clicar num chip, no Girar, apertar espaço). Assim, quando o primeiro giro
+  // acontecer, o som já está pronto pra tocar na hora certa.
+  ["pointerdown", "keydown"].forEach(function (nomeEvento) {
+    document.addEventListener(nomeEvento, prepararAudio, { once: true });
+  });
 
   document.getElementById("botao-girar").addEventListener("click", function (evento) {
     // evento.detail é 0 quando o clique veio do teclado. No clique de mouse,

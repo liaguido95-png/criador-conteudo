@@ -189,6 +189,17 @@ mudança** (ver Seção 7).
   - **Fim de tempo:** toca um sininho sutil (som sintetizado com harmônicos,
     sem arquivo de áudio — ver `tocarSininho()`) e o overlay **fecha
     sozinho** depois de ~2,6s.
+  - **Áudio preparado no primeiro gesto (corrigido em 2026-08-31):** o
+    navegador só libera som depois de um gesto da pessoa, e montar o contexto
+    de áudio na primeira vez custa alguns milissegundos. Como isso acontecia
+    dentro do primeiro giro, os primeiros tiques saíam atrasados ou nem saíam
+    — e só do segundo giro em diante o som ficava certo. Agora
+    `prepararAudio()` roda no primeiro `pointerdown`/`keydown` da página
+    (qualquer clique serve), bem antes de o som ser necessário. Além disso,
+    todo som é agendado com uma folga mínima à frente (`FOLGA_AGENDAMENTO`),
+    porque pedir pra tocar exatamente "agora" chega atrasado, e um som é
+    descartado se o áudio ainda não estiver `running`, pra não empilhar
+    tiques que sairiam todos juntos depois.
   - **Visual do cronômetro:** anel de progresso circular estilo pomodoro,
     feito com SVG puro (`stroke-dashoffset`), sem biblioteca. Arco em rosa
     (cor que dirige o olhar no guia), trilho em vinho apagado, relógio em
