@@ -7,7 +7,7 @@ produção 100% terceirizada para IA e devolver o hábito da pesquisa e da
 escrita à mão ao criador — a IA só ajuda a sortear/gerar a lista de temas,
 nunca escreve o roteiro final.
 
-🌐 **Site no ar:** https://liaguido95-png.github.io/criador-conteudo/
+🌐 **Site no ar:** https://girodeideias.liacreator.com
 
 > Toda a definição de escopo, decisões e regras do projeto vivem em
 > [`CLAUDE.md`](./CLAUDE.md). Este README é só o resumo prático de "como

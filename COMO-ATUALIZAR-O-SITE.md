@@ -15,7 +15,8 @@ precisam ficar "combinando" entre si.
 |---|---|---|
 | 💻 **Seu computador** | A pasta onde os arquivos do site ficam guardados, no seu PC. É aqui que as mudanças são feitas primeiro. | `C:\Users\lia.chinellato\desktop\criador-conteudo` |
 | 🐙 **GitHub** | Um "cofre" na internet que guarda uma cópia de tudo, com o histórico de cada mudança. | https://github.com/liaguido95-png/criador-conteudo |
-| 🌐 **O site no ar** | O endereço que qualquer pessoa acessa pra usar o app. Ele é gerado automaticamente a partir do que está no GitHub. | https://liaguido95-png.github.io/criador-conteudo/ |
+| 🌐 **O site no ar** | O endereço que qualquer pessoa acessa pra usar o app. Ele é gerado automaticamente a partir do que está no GitHub. | https://girodeideias.liacreator.com |
+| 🏷️ **HostGator** | Onde mora o domínio `liacreator.com`. Não hospeda o site — só "aponta" o endereço `girodeideias` para o GitHub, através de um registro na Zona de DNS. | https://financeiro.hostgator.com.br |
 
 **Regra de ouro:** mudar um arquivo no seu computador **não muda o site
 sozinho**. É preciso "mandar" a mudança pro GitHub — só aí o site se
@@ -67,6 +68,17 @@ quase sempre o navegador mostrando uma cópia antiga que ele mesmo guardou
 normal) — isso força o navegador a esquecer a versão antiga e buscar tudo
 de novo.
 
+📡 **Se o site não abrir de jeito nenhum e aparecer "Não é possível acessar
+esse site" / `ERR_CONNECTION_REFUSED`:** provavelmente é o **roteador** da
+sua internet guardando um endereço velho, não o site fora do ar. Aconteceu
+em 2026-08-31, quando o domínio foi configurado.
+
+Como confirmar e resolver, nessa ordem:
+1. **Teste no celular com o 4G ligado e o Wi-Fi desligado.** Se abrir, o
+   site está no ar e o problema é só da sua rede.
+2. **Reinicie o roteador** (tire da tomada, espere 30 segundos, religue).
+   Isso apaga a memória velha dele e resolve pra todos os aparelhos.
+
 ### Passo a passo de como pedir (resumo pra colar numa conversa nova)
 
 1. Peça a correção que quiser (ex.: "ajusta a cor tal", "conserta a tela
@@ -74,8 +86,8 @@ de novo.
 2. Depois que o Claude terminar e você conferir que ficou bom, diga:
    **"Pode subir pro GitHub."**
 3. Espere a confirmação do Claude de que o "push" foi feito.
-4. Abra https://liaguido95-png.github.io/criador-conteudo/ numa aba nova
-   (ou aperte Ctrl+F5) depois de alguns minutos, pra ver a mudança no ar.
+4. Abra https://girodeideias.liacreator.com numa aba nova (ou aperte
+   Ctrl+F5) depois de alguns minutos, pra ver a mudança no ar.
 
 ---
 
