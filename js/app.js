@@ -8,7 +8,8 @@ var estadoApp = {
   categoriaSelecionada: null, // null = "Tudo"; senão, o nome de uma categoria/nicho só
   historico: [], // itens já sorteados nesta seleção
   animando: false,
-  audioCtx: null
+  audioCtx: null,
+  etapa: "pronto" // ponto do ciclo girar → pesquisar → falar (ver ETAPAS)
 };
 
 function persistirDados() {
@@ -17,8 +18,27 @@ function persistirDados() {
 
 var estadoCronometro = {
   instancia: null,
-  pausado: false
+  pausado: false,
+  idFechamento: null
 };
+
+// Fluxo conduzido pela barra de espaço: girar → 10 min pesquisando →
+// 1 min falando → volta pro começo. A etapa guarda em que ponto do ciclo
+// a pessoa está, pra saber o que a próxima barra de espaço deve fazer.
+var ETAPAS = {
+  PRONTO: "pronto",
+  SORTEADO: "sorteado",
+  PARA_FALAR: "para_falar"
+};
+
+var DICAS = {};
+DICAS[ETAPAS.PRONTO] = "<kbd>espaço</kbd> para girar";
+DICAS[ETAPAS.SORTEADO] = "<kbd>espaço</kbd> para começar os 10 min de pesquisa";
+DICAS[ETAPAS.PARA_FALAR] = "<kbd>espaço</kbd> para gravar por 1 min";
+
+function atualizarDicaTeclado() {
+  document.getElementById("dica-teclado").innerHTML = DICAS[estadoApp.etapa];
+}
 
 function listaCompletaCategorias() {
   var todas = [];
@@ -57,6 +77,9 @@ function limparResultadoEHistorico() {
   document.getElementById("lista-historico").innerHTML = "";
   document.getElementById("resultado-categoria").textContent = "";
   document.getElementById("resultado-tema").textContent = "Escolha uma categoria acima e clique em Girar.";
+  // trocar a seleção recomeça o ciclo: não há mais tema sorteado pra cronometrar
+  estadoApp.etapa = ETAPAS.PRONTO;
+  atualizarDicaTeclado();
 }
 
 function atualizarPoolERoleta() {
@@ -135,23 +158,40 @@ function tocarTique() {
   }
 }
 
-// Aviso sonoro de "tempo esgotado" do cronômetro: dois tons curtos, subindo.
-function tocarAlarme() {
+// Sininho de fim de tempo. Um sino real não é um tom puro: ele soa várias
+// frequências ao mesmo tempo, que somem em velocidades diferentes. É isso
+// que as camadas abaixo imitam — som suave, com cauda longa, batendo duas
+// vezes de leve pra chamar atenção sem assustar.
+function tocarSininho() {
   try {
     var ctx = obterAudioCtx();
-    [660, 880].forEach(function (frequencia, indice) {
-      var osc = ctx.createOscillator();
-      var ganho = ctx.createGain();
-      var inicio = ctx.currentTime + indice * 0.18;
-      osc.type = "sine";
-      osc.frequency.value = frequencia;
-      ganho.gain.setValueAtTime(0.0001, inicio);
-      ganho.gain.exponentialRampToValueAtTime(0.14, inicio + 0.02);
-      ganho.gain.exponentialRampToValueAtTime(0.0001, inicio + 0.32);
-      osc.connect(ganho);
-      ganho.connect(ctx.destination);
-      osc.start(inicio);
-      osc.stop(inicio + 0.32);
+    var fundamental = 880;
+    var harmonicos = [
+      { proporcao: 1, volume: 0.09, duracao: 1.8 },
+      { proporcao: 2.02, volume: 0.05, duracao: 1.2 },
+      { proporcao: 2.98, volume: 0.03, duracao: 0.8 },
+      { proporcao: 4.15, volume: 0.015, duracao: 0.5 }
+    ];
+
+    [0, 0.62].forEach(function (atrasoBatida) {
+      harmonicos.forEach(function (h) {
+        var osc = ctx.createOscillator();
+        var ganho = ctx.createGain();
+        var inicio = ctx.currentTime + atrasoBatida;
+        // a segunda batida sai um pouco mais baixa, como um sino de verdade
+        var volume = atrasoBatida > 0 ? h.volume * 0.7 : h.volume;
+
+        osc.type = "sine";
+        osc.frequency.value = fundamental * h.proporcao;
+        ganho.gain.setValueAtTime(0.0001, inicio);
+        ganho.gain.exponentialRampToValueAtTime(volume, inicio + 0.008);
+        ganho.gain.exponentialRampToValueAtTime(0.0001, inicio + h.duracao);
+
+        osc.connect(ganho);
+        ganho.connect(ctx.destination);
+        osc.start(inicio);
+        osc.stop(inicio + h.duracao);
+      });
     });
   } catch (e) {
     // Sem Web Audio disponível: o aviso visual continua, só sem som.
@@ -186,6 +226,8 @@ function animarSorteio(resultadoFinal) {
       adicionarAoHistorico(resultadoFinal);
       estadoApp.animando = false;
       document.getElementById("botao-girar").disabled = false;
+      estadoApp.etapa = ETAPAS.SORTEADO;
+      atualizarDicaTeclado();
     }
   }
 
@@ -341,6 +383,23 @@ function formatarTempo(segundos) {
   return minutosTexto + ":" + segundosTexto;
 }
 
+// 339.29 = circunferência do círculo de raio 54 usado no SVG (2 × π × 54).
+var CIRCUNFERENCIA_ANEL = 339.29;
+
+function desenharAnel(fracaoDecorrida, semAnimacao) {
+  var anel = document.getElementById("anel-progresso");
+  if (semAnimacao) {
+    // ao abrir o cronômetro o anel volta pro cheio de uma vez; sem isso ele
+    // faria o caminho de volta animado, parecendo que está contando ao contrário
+    anel.style.transition = "none";
+  }
+  anel.style.strokeDashoffset = (CIRCUNFERENCIA_ANEL * fracaoDecorrida).toFixed(2);
+  if (semAnimacao) {
+    void anel.getBoundingClientRect(); // obriga o navegador a aplicar agora
+    anel.style.transition = "";
+  }
+}
+
 function abrirCronometro(tipo) {
   var duracaoSegundos = tipo === "pesquisa" ? 600 : 60;
   var titulo = tipo === "pesquisa" ? "Pesquisar · 10 min" : "Falar · 1 min";
@@ -356,28 +415,45 @@ function abrirCronometro(tipo) {
   document.getElementById("botao-pausar-cronometro").textContent = "⏸️ Pausar";
   document.getElementById("botao-cancelar-cronometro").textContent = "✖️ Cancelar";
   document.getElementById("overlay-cronometro").hidden = false;
+  desenharAnel(0, true);
 
   if (estadoCronometro.instancia) {
     estadoCronometro.instancia.cancelar();
+  }
+  if (estadoCronometro.idFechamento) {
+    clearTimeout(estadoCronometro.idFechamento);
+    estadoCronometro.idFechamento = null;
   }
   estadoCronometro.pausado = false;
 
   estadoCronometro.instancia = Cronometro.criar({
     duracaoSegundos: duracaoSegundos,
-    aoAtualizar: function (segundosRestantes) {
+    aoAtualizar: function (segundosRestantes, fracaoDecorrida) {
       document.getElementById("cronometro-tempo").textContent = formatarTempo(segundosRestantes);
+      desenharAnel(fracaoDecorrida);
     },
     aoTerminar: function () {
-      tocarAlarme();
+      tocarSininho();
       var aviso = document.getElementById("cronometro-aviso");
       aviso.textContent = "⏰ Tempo esgotado!";
       aviso.hidden = false;
       document.getElementById("botao-pausar-cronometro").hidden = true;
-      document.getElementById("botao-cancelar-cronometro").textContent = "Fechar";
+
+      // Terminou a pesquisa? o próximo passo é gravar. Terminou a gravação?
+      // o ciclo fecha e a próxima barra de espaço gira de novo.
+      estadoApp.etapa = tipo === "pesquisa" ? ETAPAS.PARA_FALAR : ETAPAS.PRONTO;
+
+      // fecha sozinho, mas com uma pausa pra dar tempo de ouvir o sino e ver o aviso
+      estadoCronometro.idFechamento = setTimeout(fecharCronometro, 2600);
     }
   });
 
   estadoCronometro.instancia.iniciar();
+
+  // Leva o foco pra dentro do overlay. Sem isso, o botão clicado continuaria
+  // em foco atrás dele e a barra de espaço reabriria o cronômetro em vez de
+  // pausar. De quebra, é o comportamento certo pra quem navega por teclado.
+  document.getElementById("botao-pausar-cronometro").focus();
 }
 
 function fecharCronometro() {
@@ -385,7 +461,12 @@ function fecharCronometro() {
     estadoCronometro.instancia.cancelar();
     estadoCronometro.instancia = null;
   }
+  if (estadoCronometro.idFechamento) {
+    clearTimeout(estadoCronometro.idFechamento);
+    estadoCronometro.idFechamento = null;
+  }
   document.getElementById("overlay-cronometro").hidden = true;
+  atualizarDicaTeclado();
 }
 
 function aoClicarPausarCronometro() {
@@ -489,6 +570,43 @@ function configurarFechamentoAutomaticoNicho() {
   observador.observe(detalhes);
 }
 
+// Elementos em que a barra de espaço já tem função própria: em campo de
+// texto ela digita um espaço, e em botão/link/"Inserir meu nicho" o próprio
+// navegador já aciona o item em foco. Nesses casos o atalho não entra.
+var TAGS_QUE_USAM_ESPACO = ["INPUT", "TEXTAREA", "SELECT", "BUTTON", "A", "SUMMARY"];
+
+function avancarFluxo() {
+  if (estadoApp.etapa === ETAPAS.SORTEADO) {
+    abrirCronometro("pesquisa");
+  } else if (estadoApp.etapa === ETAPAS.PARA_FALAR) {
+    abrirCronometro("falar");
+  } else {
+    aoClicarGirar();
+  }
+}
+
+function aoApertarTecla(evento) {
+  if (evento.code !== "Space" && evento.key !== " ") {
+    return;
+  }
+
+  var alvo = evento.target;
+  if (TAGS_QUE_USAM_ESPACO.indexOf(alvo.tagName) !== -1 || alvo.isContentEditable) {
+    return;
+  }
+
+  evento.preventDefault(); // sem isso, a barra de espaço rola a página
+
+  // Com o cronômetro na tela, espaço vira pausar/retomar — a mesma
+  // convenção de player de vídeo.
+  if (!document.getElementById("overlay-cronometro").hidden) {
+    aoClicarPausarCronometro();
+    return;
+  }
+
+  avancarFluxo();
+}
+
 function iniciar() {
   renderizarChipsCategorias();
   renderizarNichosSalvos();
@@ -496,7 +614,18 @@ function iniciar() {
   atualizarPoolERoleta();
   configurarFechamentoAutomaticoNicho();
 
-  document.getElementById("botao-girar").addEventListener("click", aoClicarGirar);
+  atualizarDicaTeclado();
+  document.addEventListener("keydown", aoApertarTecla);
+
+  document.getElementById("botao-girar").addEventListener("click", function (evento) {
+    // evento.detail é 0 quando o clique veio do teclado. No clique de mouse,
+    // tiramos o foco do botão pra que a próxima barra de espaço siga o fluxo
+    // (começar os 10 min) em vez de girar de novo.
+    if (evento.detail > 0) {
+      this.blur();
+    }
+    aoClicarGirar();
+  });
   document.getElementById("chip-tudo").addEventListener("click", aoClicarChipTudo);
   document.getElementById("botao-salvar-pauta").addEventListener("click", aoClicarSalvarPauta);
 

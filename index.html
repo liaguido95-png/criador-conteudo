@@ -38,6 +38,8 @@
       </div>
 
       <button id="botao-salvar-pauta" class="botao-salvar" type="button">♡ Salvar pauta</button>
+
+      <p id="dica-teclado" class="dica-teclado"></p>
     </main>
 
     <section class="secao-historico">
@@ -109,7 +111,17 @@
   <div id="overlay-cronometro" class="overlay-cronometro" hidden>
     <div class="cartao-cronometro">
       <p id="cronometro-titulo" class="cronometro-titulo"></p>
-      <p id="cronometro-tempo" class="cronometro-tempo">00:00</p>
+
+      <div class="anel-area">
+        <!-- O anel é SVG puro: o arco encolhe mexendo no "stroke-dashoffset",
+             sem precisar de nenhuma biblioteca de animação. -->
+        <svg class="anel" viewBox="0 0 120 120" aria-hidden="true">
+          <circle class="anel-trilho" cx="60" cy="60" r="54" />
+          <circle id="anel-progresso" class="anel-progresso" cx="60" cy="60" r="54" />
+        </svg>
+        <p id="cronometro-tempo" class="cronometro-tempo">00:00</p>
+      </div>
+
       <p id="cronometro-reforco" class="cronometro-reforco"></p>
       <p id="cronometro-aviso" class="cronometro-aviso" hidden></p>
       <div class="cronometro-acoes">

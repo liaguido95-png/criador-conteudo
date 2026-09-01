@@ -20,6 +20,8 @@ var Cronometro = (function () {
       }
     }
 
+    // aoAtualizar recebe dois valores: os segundos inteiros (pro relógio) e a
+    // fração que já passou, de 0 a 1 (pro anel de progresso desenhar liso).
     function tick() {
       if (pausado || finalizado) {
         return;
@@ -28,11 +30,11 @@ var Cronometro = (function () {
       if (restanteMs <= 0) {
         finalizado = true;
         pararIntervalo();
-        aoAtualizar(0);
+        aoAtualizar(0, 1);
         aoTerminar();
         return;
       }
-      aoAtualizar(Math.ceil(restanteMs / 1000));
+      aoAtualizar(Math.ceil(restanteMs / 1000), 1 - restanteMs / duracaoMs);
     }
 
     function iniciar() {

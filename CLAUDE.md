@@ -167,6 +167,27 @@ mudança** (ver Seção 7).
   (antes era Regular) a pedido da Lia, pra ter mais destaque — é uma
   exceção deliberada à regra geral do guia de marca de evitar Bodoni Moda
   Bold como padrão (Seção 2), só pra esse elemento específico.
+- **Fluxo pela barra de espaço + anel de cronômetro (2026-08-31):** a pedido
+  da Lia, o ciclo inteiro passa a ser conduzível sem tirar a mão do teclado.
+  A barra de espaço avança o fluxo: **girar → 10 min de pesquisa → 1 min de
+  gravação → volta ao começo**. Com o cronômetro aberto ela vira
+  pausar/retomar (convenção de player de vídeo). O estado do ciclo fica em
+  `estadoApp.etapa` (ver `ETAPAS` em `js/app.js`), e uma dica na tela mostra
+  o que a próxima barra de espaço faz — a dica some em aparelho de toque,
+  onde não existe teclado à mão.
+  - **Proteções obrigatórias do atalho:** dentro de campo de texto o espaço
+    continua digitando espaço, e com botão/link/`<summary>` em foco o
+    navegador cuida sozinho — só fora disso o atalho age. Sem isso, seria
+    impossível digitar o nome de um nicho. Ao abrir o cronômetro o foco vai
+    pro botão "Pausar" dentro do overlay, senão o botão que ficou em foco
+    atrás reabriria o cronômetro.
+  - **Fim de tempo:** toca um sininho sutil (som sintetizado com harmônicos,
+    sem arquivo de áudio — ver `tocarSininho()`) e o overlay **fecha
+    sozinho** depois de ~2,6s.
+  - **Visual do cronômetro:** anel de progresso circular estilo pomodoro,
+    feito com SVG puro (`stroke-dashoffset`), sem biblioteca. Arco em rosa
+    (cor que dirige o olhar no guia), trilho em vinho apagado, relógio em
+    Bodoni Moda no centro.
 - **Onde paramos (2026-08-31):** contas removidas, nova identidade visual,
   banco de temas atualizado, layout responsivo de desktop e nome do produto
   trocado para "Giro de Ideias".
