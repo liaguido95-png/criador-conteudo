@@ -171,7 +171,12 @@ mudança** (ver Seção 7).
   da Lia, o ciclo inteiro passa a ser conduzível sem tirar a mão do teclado.
   A barra de espaço avança o fluxo: **girar → 10 min de pesquisa → 1 min de
   gravação → volta ao começo**. Com o cronômetro aberto ela vira
-  pausar/retomar (convenção de player de vídeo). O estado do ciclo fica em
+  pausar/retomar (convenção de player de vídeo). **ESC recomeça o ciclo** de
+  qualquer ponto: cancela o cronômetro se estiver aberto, volta a etapa pro
+  começo e tira o foco de onde estiver — esse último detalhe é essencial,
+  senão o espaço seguinte digitaria um espaço no campo de nicho em vez de
+  girar. Diferente do espaço, ESC funciona até de dentro de um campo de
+  texto, porque não digita nada. O estado do ciclo fica em
   `estadoApp.etapa` (ver `ETAPAS` em `js/app.js`), e uma dica na tela mostra
   o que a próxima barra de espaço faz — a dica some em aparelho de toque,
   onde não existe teclado à mão.

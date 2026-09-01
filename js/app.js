@@ -9,7 +9,8 @@ var estadoApp = {
   historico: [], // itens já sorteados nesta seleção
   animando: false,
   audioCtx: null,
-  etapa: "pronto" // ponto do ciclo girar → pesquisar → falar (ver ETAPAS)
+  etapa: "pronto", // ponto do ciclo girar → pesquisar → falar (ver ETAPAS)
+  reiniciado: false // ESC apertado durante um giro que ainda está rolando
 };
 
 function persistirDados() {
@@ -33,8 +34,8 @@ var ETAPAS = {
 
 var DICAS = {};
 DICAS[ETAPAS.PRONTO] = "<kbd>espaço</kbd> para girar";
-DICAS[ETAPAS.SORTEADO] = "<kbd>espaço</kbd> para começar os 10 min de pesquisa";
-DICAS[ETAPAS.PARA_FALAR] = "<kbd>espaço</kbd> para gravar por 1 min";
+DICAS[ETAPAS.SORTEADO] = "<kbd>espaço</kbd> para começar os 10 min de pesquisa · <kbd>esc</kbd> para recomeçar";
+DICAS[ETAPAS.PARA_FALAR] = "<kbd>espaço</kbd> para gravar por 1 min · <kbd>esc</kbd> para recomeçar";
 
 function atualizarDicaTeclado() {
   document.getElementById("dica-teclado").innerHTML = DICAS[estadoApp.etapa];
@@ -208,6 +209,7 @@ function animarSorteio(resultadoFinal) {
   var i = 0;
 
   estadoApp.animando = true;
+  estadoApp.reiniciado = false;
   document.getElementById("botao-girar").disabled = true;
 
   function passo() {
@@ -226,7 +228,8 @@ function animarSorteio(resultadoFinal) {
       adicionarAoHistorico(resultadoFinal);
       estadoApp.animando = false;
       document.getElementById("botao-girar").disabled = false;
-      estadoApp.etapa = ETAPAS.SORTEADO;
+      // se apertaram ESC no meio do giro, o ciclo fica no começo
+      estadoApp.etapa = estadoApp.reiniciado ? ETAPAS.PRONTO : ETAPAS.SORTEADO;
       atualizarDicaTeclado();
     }
   }
@@ -585,7 +588,34 @@ function avancarFluxo() {
   }
 }
 
+// ESC volta o ciclo pro começo: cancela o cronômetro se estiver aberto e
+// deixa a próxima barra de espaço girar de novo. Diferente do espaço, funciona
+// de qualquer lugar (inclusive de dentro de um campo de texto), porque ESC não
+// digita nada — é o "sair daqui" que todo mundo já espera dessa tecla.
+function reiniciarFluxo() {
+  if (!document.getElementById("overlay-cronometro").hidden) {
+    fecharCronometro();
+  }
+
+  // Se um giro estiver acontecendo, ele termina de rodar, mas não avança mais
+  // o ciclo — quem manda é o reinício.
+  estadoApp.reiniciado = true;
+  estadoApp.etapa = ETAPAS.PRONTO;
+  atualizarDicaTeclado();
+
+  // Tira o foco de onde estiver (ex.: o campo de nicho). Sem isso, a próxima
+  // barra de espaço digitaria um espaço no campo em vez de girar a roleta.
+  if (document.activeElement && document.activeElement !== document.body) {
+    document.activeElement.blur();
+  }
+}
+
 function aoApertarTecla(evento) {
+  if (evento.key === "Escape" || evento.key === "Esc") {
+    reiniciarFluxo();
+    return;
+  }
+
   if (evento.code !== "Space" && evento.key !== " ") {
     return;
   }
